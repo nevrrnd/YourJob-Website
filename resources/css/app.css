@@ -1,0 +1,151 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+    }
+
+    body {
+        @apply text-ink-700 antialiased;
+        background: linear-gradient(145deg, #f8fafd 0%, #eff3fa 100%);
+    }
+
+    h1, h2, h3, h4 {
+        @apply text-ink-900 tracking-tight;
+    }
+
+    ::selection {
+        @apply bg-brand-100 text-brand-900;
+    }
+
+    ::-webkit-scrollbar {
+        width: 12px;
+        height: 12px;
+    }
+    ::-webkit-scrollbar-thumb {
+        @apply bg-ink-200 rounded-full border-[3px] border-solid border-transparent bg-clip-content;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        @apply bg-ink-300;
+    }
+}
+
+@layer components {
+    /* Surfaces */
+    .card {
+        @apply bg-white/85 rounded-[2rem] border border-white/70 shadow-soft backdrop-blur;
+    }
+    .card-hover {
+        @apply transition-all duration-300 hover:-translate-y-2 hover:bg-white hover:shadow-lift hover:border-brand-200;
+    }
+    .glass {
+        @apply bg-white/75 backdrop-blur-xl border-b border-brand-600/15;
+    }
+
+    /* Buttons — solid, calm, corporate */
+    .btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-full font-bold text-sm px-5 py-2.5 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none;
+    }
+    .btn-primary {
+        @apply btn text-white shadow-xs active:bg-brand-800;
+        background: linear-gradient(105deg, #1e4a6e, #2c7da0);
+    }
+    .btn-primary:hover {
+        background: linear-gradient(105deg, #0f3b5f, #1e6a8a);
+        box-shadow: 0 12px 22px -8px rgba(44, 125, 160, 0.45);
+        transform: translateY(-2px);
+    }
+    .btn-ghost {
+        @apply btn text-ink-700 bg-white/70 border border-ink-200 hover:bg-white hover:border-brand-500 shadow-xs;
+    }
+    .btn-soft {
+        @apply btn text-brand-700 bg-brand-50 hover:bg-brand-100;
+    }
+    .btn-danger {
+        @apply btn text-white bg-red-600 hover:bg-red-700 shadow-xs;
+    }
+    .btn-sm {
+        @apply px-3 py-1.5 text-xs rounded-md;
+    }
+
+    /* Badges / chips */
+    .chip {
+        @apply inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full bg-brand-600/10 text-[#1f4e6e];
+    }
+    .chip-brand {
+        @apply chip text-white;
+        background: linear-gradient(115deg, #1e4a6e, #2c7da0);
+    }
+
+    /* Form fields */
+    .field {
+        @apply w-full rounded-2xl border-ink-200 bg-white/90 text-ink-800 placeholder-ink-400 shadow-xs transition focus:border-[#2c7da0] focus:ring-2 focus:ring-[#2c7da0]/20;
+    }
+
+    /* Eyebrow / section label */
+    .eyebrow {
+        @apply inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#155e75];
+    }
+
+    .premium-panel {
+        @apply bg-white/55 backdrop-blur-xl border border-white/80 shadow-soft;
+    }
+
+    .section-panel {
+        @apply bg-white/80 backdrop-blur border border-white/80 rounded-[2rem] shadow-soft;
+    }
+
+    .section-title {
+        @apply text-base font-extrabold text-ink-900;
+    }
+
+    .link-brand {
+        @apply font-semibold text-[#1e4a6e] transition hover:text-[#2c7da0];
+    }
+
+    .premium-heading {
+        background: linear-gradient(145deg, #0f2f44, #1b6285, #1b8bb0);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    /* Brand-tinted heading text (kept subtle for corporate) */
+    .text-gradient {
+        @apply text-brand-700;
+    }
+
+    /* Modern tables */
+    .table-modern {
+        @apply w-full text-sm;
+    }
+    .table-modern thead {
+        @apply bg-white/60 text-ink-500 text-left border-b border-ink-200;
+    }
+    .table-modern thead th {
+        @apply px-5 py-3 font-semibold text-xs uppercase tracking-wide;
+    }
+    .table-modern tbody {
+        @apply divide-y divide-ink-100;
+    }
+    .table-modern tbody tr {
+        @apply transition-colors hover:bg-[#2c7da0]/5;
+    }
+    .table-modern tbody td {
+        @apply px-5 py-3.5;
+    }
+}
+
+@layer utilities {
+    /* Backward-compatible no-op aliases (kept so older markup stays safe) */
+    .shadow-glow {
+        box-shadow: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
+    }
+    [x-cloak] {
+        display: none !important;
+    }
+}
