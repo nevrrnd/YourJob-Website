@@ -87,6 +87,8 @@ class GoogleAuthController extends Controller
                     'industry' => $validated['industry'] ?? null,
                     'city' => $validated['city'] ?? null,
                     'description' => $validated['description'] ?? null,
+                    // Auto-verify new companies when enabled in site settings.
+                    'is_verified' => (bool) setting('auto_verify_company', false),
                 ]
             );
         } else {

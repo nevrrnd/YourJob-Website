@@ -16,9 +16,8 @@ class Setting extends Model
      *
      * @return array<string, mixed>
      */
-    public static function all(...$args): array
+    public static function map(): array
     {
-        // Allow Eloquent's all() signature but return a cached key/value map.
         return Cache::rememberForever(self::CACHE_KEY, function () {
             return static::query()->pluck('value', 'key')->all();
         });
@@ -29,7 +28,7 @@ class Setting extends Model
      */
     public static function get(string $key, mixed $default = null): mixed
     {
-        $value = static::all()[$key] ?? $default;
+        $value = static::map()[$key] ?? $default;
 
         // Normalise common boolean-ish strings.
         if ($value === '1' || $value === 'true') {

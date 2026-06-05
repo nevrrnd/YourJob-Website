@@ -2,47 +2,44 @@
 
 @section('content')
 <div class="space-y-6">
-    <!-- Stats -->
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <x-stat-card label="Total Pengguna" :value="number_format($stats['users'])" icon="👥" grad="from-brand-500 to-brand-700" />
-        <x-stat-card label="Lowongan Aktif" :value="number_format($stats['active_jobs'])" icon="💼" grad="from-sky-500 to-blue-600" />
-        <x-stat-card label="Total Lamaran" :value="number_format($stats['applications'])" icon="📄" grad="from-indigo-500 to-brand-600" />
-        <x-stat-card label="Perusahaan" :value="number_format($stats['companies'])" icon="🏢" grad="from-emerald-500 to-green-600" />
+    <div class="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
+        <x-stat-card label="Total Pengguna" :value="number_format($stats['users'])" icon="group" />
+        <x-stat-card label="Lowongan Aktif" :value="number_format($stats['active_jobs'])" icon="work" />
+        <x-stat-card label="Total Lamaran" :value="number_format($stats['applications'])" icon="assignment" />
+        <x-stat-card label="Perusahaan" :value="number_format($stats['companies'])" icon="domain" />
     </div>
 
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div class="card p-4 text-sm"><span class="text-ink-500">Pencari Kerja</span><div class="text-xl font-extrabold text-ink-900">{{ $stats['seekers'] }}</div></div>
-        <div class="card p-4 text-sm"><span class="text-ink-500">Pemberi Kerja</span><div class="text-xl font-extrabold text-ink-900">{{ $stats['employers'] }}</div></div>
-        <div class="card p-4 text-sm"><span class="text-ink-500">Total Lowongan</span><div class="text-xl font-extrabold text-ink-900">{{ $stats['jobs'] }}</div></div>
-        <div class="card p-4 text-sm"><span class="text-ink-500">Menunggu Verifikasi</span><div class="text-xl font-extrabold text-amber-600">{{ $stats['pending_companies'] }}</div></div>
+    <div class="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+        <div class="card p-4 text-sm sm:p-5"><span class="text-[#737688]">Pencari Kerja</span><div class="text-2xl font-extrabold text-[#1a1c1e]">{{ $stats['seekers'] }}</div></div>
+        <div class="card p-4 text-sm sm:p-5"><span class="text-[#737688]">Pemberi Kerja</span><div class="text-2xl font-extrabold text-[#1a1c1e]">{{ $stats['employers'] }}</div></div>
+        <div class="card p-4 text-sm sm:p-5"><span class="text-[#737688]">Total Lowongan</span><div class="text-2xl font-extrabold text-[#1a1c1e]">{{ $stats['jobs'] }}</div></div>
+        <div class="card p-4 text-sm sm:p-5"><span class="text-[#737688]">Menunggu Verifikasi</span><div class="text-2xl font-extrabold text-[#003ec7]">{{ $stats['pending_companies'] }}</div></div>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <!-- Recent jobs -->
         <div class="card overflow-hidden">
-            <div class="px-5 py-4 border-b border-ink-100 flex items-center justify-between">
-                <h2 class="font-bold text-ink-900">Lowongan Terbaru</h2>
-                <a href="{{ route('admin.jobs') }}" class="text-sm font-semibold text-brand-600 hover:underline">Semua</a>
+            <div class="flex items-center justify-between border-b border-[#e5e7eb] px-6 py-5">
+                <h2 class="section-title">Lowongan Terbaru</h2>
+                <a href="{{ route('admin.jobs') }}" class="link-brand text-sm">Semua</a>
             </div>
             <div class="divide-y divide-ink-100">
                 @forelse ($recentJobs as $job)
-                    <div class="px-5 py-3.5 flex items-center justify-between text-sm hover:bg-brand-50/40 transition">
+                    <div class="flex items-center justify-between px-6 py-4 text-sm transition hover:bg-[#f7f8f9]">
                         <div>
-                            <a href="{{ route('jobs.show', $job) }}" class="font-semibold text-ink-900 hover:text-brand-600">{{ $job->title }}</a>
+                            <a href="{{ route('jobs.show', $job) }}" class="font-bold text-[#1a1c1e] hover:text-[#003ec7]">{{ $job->title }}</a>
                             <p class="text-ink-500 text-xs">{{ $job->employer?->companyProfile?->company_name ?? $job->employer?->name }}</p>
                         </div>
                         <span class="text-xs text-ink-400">{{ $job->created_at->diffForHumans() }}</span>
                     </div>
                 @empty
-                    <x-empty-state icon="💼" title="Belum ada lowongan" class="!p-8" />
+                    <x-empty-state title="Belum ada lowongan" class="!p-8" />
                 @endforelse
             </div>
         </div>
 
-        <!-- Category aggregation -->
         <div class="card overflow-hidden">
-            <div class="px-5 py-4 border-b border-ink-100">
-                <h2 class="font-bold text-ink-900">Statistik per Kategori</h2>
+            <div class="border-b border-[#e5e7eb] px-6 py-5">
+                <h2 class="section-title">Statistik per Kategori</h2>
             </div>
             <div class="overflow-x-auto">
                 <table class="table-modern">
@@ -52,7 +49,7 @@
                     <tbody>
                         @foreach ($categoryStats as $cat)
                             <tr>
-                                <td class="font-medium text-ink-800">{{ $cat->icon }} {{ $cat->name }}</td>
+                                <td class="font-bold text-ink-800">{{ $cat->name }}</td>
                                 <td class="text-ink-600">{{ $cat->total_jobs }}</td>
                                 <td class="text-ink-600">{{ $cat->total_applications }}</td>
                             </tr>

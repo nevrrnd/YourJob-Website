@@ -12,20 +12,13 @@
         }
     }
 
-    // Fallback initial + role-based background color
     $initial = strtoupper(mb_substr($user?->name ?? '?', 0, 1));
-    $bg = match ($user?->role) {
-        'seeker'   => 'bg-emerald-600',
-        'employer' => 'bg-orange-500',
-        'admin'    => 'bg-indigo-600',
-        default    => 'bg-ink-500',
-    };
 @endphp
 @if ($photo)
     <img src="{{ asset('storage/' . $photo) }}" alt="{{ $user?->name }}"
-         {{ $attributes->merge(['class' => 'w-8 h-8 rounded-full object-cover ring-1 ring-ink-200']) }}>
+         {{ $attributes->merge(['class' => 'h-8 w-8 rounded-full object-cover ring-1 ring-[#e5e7eb]']) }}>
 @else
-    <span {{ $attributes->merge(['class' => 'grid place-items-center w-8 h-8 rounded-full text-white text-xs font-semibold ' . $bg]) }}>
+    <span {{ $attributes->merge(['class' => 'grid h-8 w-8 place-items-center rounded-full bg-[#003ec7] text-xs font-extrabold text-white shadow-sm']) }}>
         {{ $initial }}
     </span>
 @endif

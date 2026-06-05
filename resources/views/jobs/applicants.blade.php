@@ -2,47 +2,54 @@
 
 @section('content')
 <div>
-    <x-page-header title="Pelamar: {{ $job->title }}" subtitle="{{ $applications->count() }} pelamar masuk">
-        <a href="{{ route('employer.dashboard') }}" class="btn-ghost btn-sm">← Dashboard</a>
-    </x-page-header>
+    <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+            <h2 class="text-3xl font-extrabold text-[#1a1c1e]">Pelamar: {{ $job->title }}</h2>
+            <p class="mt-2 text-[#737688]">{{ $applications->count() }} pelamar masuk</p>
+        </div>
+        <a href="{{ route('employer.dashboard') }}" class="btn-ghost btn-sm">Dashboard</a>
+    </div>
 
     @if ($applications->isEmpty())
         <div class="card">
-            <x-empty-state icon="👥" title="Belum ada pelamar">Bagikan lowongan kamu agar lebih banyak kandidat melamar.</x-empty-state>
+            <x-empty-state icon="groups" title="Belum ada pelamar">Bagikan lowongan kamu agar lebih banyak kandidat melamar.</x-empty-state>
         </div>
     @else
         <div class="space-y-4">
             @foreach ($applications as $app)
                 <div class="card card-hover p-5">
-                    <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                    <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                         <div class="flex items-start gap-4">
-                            <div class="grid place-items-center w-12 h-12 rounded-full bg-brand-gradient text-white font-bold shrink-0">{{ strtoupper(substr($app->seeker->name, 0, 1)) }}</div>
+                            <div class="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-[#dde1ff] font-bold text-[#003ec7]">{{ strtoupper(substr($app->seeker->name, 0, 1)) }}</div>
                             <div>
-                                <p class="font-bold text-ink-900">{{ $app->seeker->name }}</p>
-                                <p class="text-sm text-ink-500">✉️ {{ $app->seeker->email }}</p>
+                                <p class="font-bold text-[#1a1c1e]">{{ $app->seeker->name }}</p>
+                                <p class="mt-1 flex items-center gap-2 text-sm text-[#737688]"><span class="material-symbols-outlined text-[16px]">mail</span>{{ $app->seeker->email }}</p>
                                 @if ($app->seeker->seekerProfile?->phone)
-                                    <p class="text-sm text-ink-500">📞 {{ $app->seeker->seekerProfile->phone }}</p>
+                                    <p class="mt-1 flex items-center gap-2 text-sm text-[#737688]"><span class="material-symbols-outlined text-[16px]">call</span>{{ $app->seeker->seekerProfile->phone }}</p>
                                 @endif
-                                <p class="text-xs text-ink-400 mt-1">🕒 Melamar {{ $app->created_at->diffForHumans() }}</p>
+                                <p class="mt-1 flex items-center gap-2 text-xs text-[#737688]"><span class="material-symbols-outlined text-[15px]">schedule</span>Melamar {{ $app->created_at->diffForHumans() }}</p>
                                 @if ($app->cover_letter)
-                                    <details class="mt-2 text-sm text-ink-600">
-                                        <summary class="cursor-pointer text-brand-600 font-medium">Lihat cover letter</summary>
-                                        <p class="mt-1 whitespace-pre-line bg-ink-50 rounded-lg p-3">{{ $app->cover_letter }}</p>
+                                    <details class="mt-3 text-sm text-[#434656]">
+                                        <summary class="cursor-pointer font-bold text-[#003ec7]">Lihat cover letter</summary>
+                                        <p class="mt-2 whitespace-pre-line rounded-lg bg-[#f7f8f9] p-3">{{ $app->cover_letter }}</p>
                                     </details>
                                 @endif
                             </div>
                         </div>
-                        <div class="flex flex-col items-start sm:items-end gap-2 shrink-0">
-                            <span class="text-xs font-semibold px-2.5 py-1 rounded-full {{ $app->status_color }}">{{ $app->status_label }}</span>
-                            <a href="{{ asset('storage/' . $app->cv_file) }}" target="_blank" class="btn-ghost btn-sm">📄 Lihat CV</a>
+                        <div class="flex shrink-0 flex-col items-start gap-2 sm:items-end">
+                            <span class="rounded-full px-2.5 py-1 text-xs font-bold {{ $app->status_color }}">{{ $app->status_label }}</span>
+                            <a href="{{ asset('storage/' . $app->cv_file) }}" target="_blank" class="btn-ghost btn-sm">
+                                <span class="material-symbols-outlined text-[16px]">description</span>
+                                Lihat CV
+                            </a>
                         </div>
                     </div>
 
-                    <form action="{{ route('employer.application.status', $app) }}" method="POST" class="mt-4 pt-4 border-t border-ink-100 grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
+                    <form action="{{ route('employer.application.status', $app) }}" method="POST" class="mt-5 grid grid-cols-1 items-end gap-3 border-t border-[#e5e7eb] pt-5 sm:grid-cols-3">
                         @csrf
                         @method('PATCH')
                         <div>
-                            <label class="block text-xs font-semibold text-ink-600 mb-1.5">Ubah Status</label>
+                            <label class="mb-1.5 block text-xs font-bold text-[#737688]">Ubah Status</label>
                             <select name="status" class="field text-sm">
                                 @foreach (['pending'=>'Menunggu','reviewed'=>'Ditinjau','interview'=>'Interview','accepted'=>'Diterima','rejected'=>'Ditolak'] as $val => $label)
                                     <option value="{{ $val }}" @selected($app->status === $val)>{{ $label }}</option>
@@ -50,9 +57,9 @@
                             </select>
                         </div>
                         <div class="sm:col-span-2">
-                            <label class="block text-xs font-semibold text-ink-600 mb-1.5">Catatan untuk Pelamar</label>
+                            <label class="mb-1.5 block text-xs font-bold text-[#737688]">Catatan untuk Pelamar</label>
                             <div class="flex gap-2">
-                                <input type="text" name="employer_note" value="{{ $app->employer_note }}" placeholder="Tulis catatan..." class="field text-sm flex-1">
+                                <input type="text" name="employer_note" value="{{ $app->employer_note }}" placeholder="Tulis catatan..." class="field flex-1 text-sm">
                                 <button class="btn-primary btn-sm whitespace-nowrap">Simpan</button>
                             </div>
                         </div>

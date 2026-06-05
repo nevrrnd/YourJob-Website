@@ -15,6 +15,12 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => \App\Http\Middleware\RoleMiddleware::class,
             'employer.verified' => \App\Http\Middleware\EmployerVerified::class,
         ]);
+
+        // Run on every web request (after session + auth are available).
+        $middleware->web(append: [
+            \App\Http\Middleware\SetLocale::class,
+            \App\Http\Middleware\CheckMaintenance::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

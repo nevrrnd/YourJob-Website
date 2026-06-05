@@ -1,64 +1,36 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-    <div class="mb-8">
-        <span class="eyebrow">Eksplorasi</span>
-        <h1 class="mt-2 text-3xl sm:text-4xl font-extrabold premium-heading">Browse Lowongan</h1>
-        <p class="mt-2 text-ink-500">{{ number_format($jobs->total()) }} lowongan tersedia untukmu</p>
-    </div>
-
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        <aside class="lg:col-span-1">
-            <form action="{{ route('jobs.index') }}" method="GET" class="premium-panel rounded-[2rem] p-5 space-y-4 lg:sticky lg:top-24">
-                <div class="flex items-center gap-2 text-ink-900 font-bold">Filter</div>
-                <div>
-                    <label class="block text-sm font-semibold text-ink-700 mb-1.5">Kata Kunci</label>
-                    <input type="text" name="q" value="{{ request('q') }}" placeholder="Posisi / skill" class="field text-sm">
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold text-ink-700 mb-1.5">Kategori</label>
-                    <select name="category" class="field text-sm">
-                        <option value="">Semua Kategori</option>
-                        @foreach ($categories as $category)
-                            <option value="{{ $category->id }}" @selected(request('category') == $category->id)>{{ $category->icon }} {{ $category->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold text-ink-700 mb-1.5">Tipe Pekerjaan</label>
-                    <select name="type" class="field text-sm">
-                        <option value="">Semua Tipe</option>
-                        @foreach (['full_time'=>'Full Time','part_time'=>'Part Time','freelance'=>'Freelance','internship'=>'Magang','contract'=>'Kontrak'] as $val => $label)
-                            <option value="{{ $val }}" @selected(request('type') === $val)>{{ $label }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold text-ink-700 mb-1.5">Kota</label>
-                    <input type="text" name="city" value="{{ request('city') }}" placeholder="mis. Jakarta" class="field text-sm">
-                </div>
-                <button class="btn-primary w-full">Terapkan Filter</button>
-                <a href="{{ route('jobs.index') }}" class="block text-center text-sm text-ink-500 hover:text-[#2c7da0]">Reset filter</a>
-            </form>
-        </aside>
-
-        <div class="lg:col-span-3">
-            @if ($jobs->isEmpty())
-                <div class="card">
-                    <x-empty-state icon="" title="Tidak ada lowongan yang cocok">
-                        Coba ubah kata kunci atau reset filter untuk melihat semua lowongan.
-                    </x-empty-state>
-                </div>
-            @else
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    @foreach ($jobs as $job)
-                        @include('partials.job-card', ['job' => $job])
-                    @endforeach
-                </div>
-                <div class="mt-8">{{ $jobs->links() }}</div>
-            @endif
+<div class="mx-auto max-w-6xl space-y-6 p-4 sm:p-6 lg:p-8">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+            <h1 class="text-2xl font-semibold text-slate-950">Jobs</h1>
+            <p class="text-sm text-slate-600">Explore current openings. {{ number_format($jobs->total()) }} lowongan tersedia.</p>
         </div>
     </div>
+
+    <form action="{{ route('jobs.index') }}" method="GET" class="grid gap-3 rounded-3xl bg-white p-4 shadow-sm ring-1 ring-slate-200/75 sm:grid-cols-2 xl:grid-cols-5">
+        <input type="text" name="q" value="{{ request('q') }}" placeholder="Search title, company, location" class="field text-sm xl:col-span-2">
+        <input type="text" name="city" value="{{ request('city') }}" placeholder="Location" class="field text-sm">
+        <select name="type" class="field text-sm">
+            <option value="">Any Type</option>
+            @foreach (['full_time'=>'Full Time','part_time'=>'Part Time','freelance'=>'Freelance','internship'=>'Magang','contract'=>'Kontrak'] as $val => $label)
+                <option value="{{ $val }}" @selected(request('type') === $val)>{{ $label }}</option>
+            @endforeach
+        </select>
+        <button class="rounded-2xl bg-blue-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-700">Search</button>
+    </form>
+
+    <div class="grid gap-4 lg:grid-cols-2">
+        @forelse ($jobs as $job)
+            @include('partials.job-card', ['job' => $job])
+        @empty
+            <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-slate-200/75">
+                <p class="text-sm text-slate-500">No jobs found.</p>
+            </div>
+        @endforelse
+    </div>
+
+    <div>{{ $jobs->links() }}</div>
 </div>
 @endsection

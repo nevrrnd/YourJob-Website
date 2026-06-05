@@ -1,16 +1,16 @@
 @props(['color' => 'gray'])
 @php
     $map = [
-        'gray'   => 'bg-white/80 text-ink-600 border border-ink-200',
-        'brand'  => 'bg-[#2c7da0]/10 text-[#155e75] border border-[#2c7da0]/20',
-        'green'  => 'bg-green-100 text-green-700',
-        'amber'  => 'bg-amber-100 text-amber-700',
-        'red'    => 'bg-red-100 text-red-700',
-        'violet' => 'bg-violet-100 text-violet-700',
-        'sky'    => 'bg-sky-100 text-sky-700',
+        'gray'   => 'bg-[#f7f8f9] text-[#434656] border border-[#e5e7eb]',
+        'brand'  => 'bg-[#dde1ff] text-[#001452] border border-[#b7c4ff]',
+        'green'  => 'bg-green-100 text-green-700 border border-green-200',
+        'amber'  => 'bg-amber-100 text-amber-800 border border-amber-200',
+        'red'    => 'bg-red-100 text-red-700 border border-red-200',
+        'violet' => 'bg-[#eedcff] text-[#523d6e] border border-[#dfc4fe]',
+        'sky'    => 'bg-[#dde1ff] text-[#0038b6] border border-[#b7c4ff]',
     ];
     $classes = $map[$color] ?? $map['gray'];
 @endphp
-<span {{ $attributes->merge(['class' => 'inline-flex items-center gap-1 text-xs font-bold px-3 py-1.5 rounded-full ' . $classes]) }}>
+<span {{ $attributes->merge(['class' => 'inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-bold ' . $classes]) }}>
     {{ $slot }}
 </span>

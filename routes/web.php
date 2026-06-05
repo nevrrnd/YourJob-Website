@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SavedJobController;
+use App\Http\Controllers\UserPreferenceController;
 use Illuminate\Support\Facades\Route;
 
 // ---- Public ----
@@ -61,6 +62,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/account', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/account', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/account', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // User preferences (language, timezone, notifications)
+    Route::get('/preferensi', [UserPreferenceController::class, 'edit'])->name('preferences');
+    Route::put('/preferensi', [UserPreferenceController::class, 'update'])->name('preferences.update');
 });
 
 require __DIR__.'/auth.php';

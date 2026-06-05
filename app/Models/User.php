@@ -26,6 +26,9 @@ class User extends Authenticatable
         'is_active',
         'google_id',
         'avatar',
+        'language',
+        'timezone',
+        'email_notifications',
     ];
 
     /**
@@ -49,6 +52,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'is_active' => 'boolean',
+            'email_notifications' => 'boolean',
         ];
     }
 

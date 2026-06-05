@@ -3,34 +3,39 @@
     $logo = $company?->logo ? asset('storage/' . $company->logo) : null;
 @endphp
 
-<div class="group card card-hover p-6 flex flex-col">
-    <div class="flex items-start gap-4">
-        <div class="grid place-items-center w-14 h-14 rounded-2xl bg-white ring-1 ring-brand-100 overflow-hidden shrink-0 shadow-soft group-hover:scale-105 transition">
-            @if ($logo)
-                <img src="{{ $logo }}" alt="logo" class="w-full h-full object-cover">
-            @else
-                <span class="text-2xl">{{ $job->category?->icon ?? 'JOB' }}</span>
+<article class="group rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-1.5 hover:shadow-lg sm:p-6">
+    <div class="flex items-start justify-between gap-4">
+        <div class="min-w-0">
+            <h3 class="text-lg font-semibold text-slate-950">
+                <a href="{{ route('jobs.show', $job) }}" class="line-clamp-2 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600/30">{{ $job->title }}</a>
+            </h3>
+            <p class="mt-1 truncate text-sm text-slate-600">{{ $company?->company_name ?? $job->employer?->name }} - {{ $job->location_label }}</p>
+        </div>
+        @auth
+            @if (auth()->user()->isSeeker())
+                <form action="{{ route('seeker.save', $job) }}" method="POST">
+                    @csrf
+                    <button class="rounded-full px-3 py-2 text-sm font-semibold text-slate-400 transition hover:text-red-500" aria-label="Save job">♡</button>
+                </form>
+            @endif
+        @endauth
+    </div>
+
+    <div class="mt-4 space-y-3 text-sm text-slate-700">
+        <p class="line-clamp-3">{{ Str::limit(strip_tags($job->description), 140) }}</p>
+        <div class="flex flex-wrap gap-2">
+            <span class="rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-700">{{ $job->type_label }}</span>
+            <span class="rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-700">{{ $job->experience_label }}</span>
+            @if ($job->salary_range)
+                <span class="rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-700">{{ $job->salary_range }}</span>
             @endif
         </div>
-        <div class="min-w-0 flex-1">
-            <a href="{{ route('jobs.show', $job) }}" class="block font-bold text-ink-900 group-hover:text-[#2c7da0] transition leading-snug line-clamp-2">{{ $job->title }}</a>
-            <p class="text-sm text-[#2c7da0] font-semibold truncate mt-1">{{ $company?->company_name ?? $job->employer?->name }}</p>
-        </div>
     </div>
 
-    <div class="flex flex-wrap gap-2 mt-4">
-        <span class="chip-brand">{{ $job->type_label }}</span>
-        <span class="chip">{{ $job->location_label }}</span>
-        <span class="chip">{{ $job->experience_label }}</span>
+    <div class="mt-5 flex items-center justify-between border-t border-slate-100 pt-4 text-xs">
+        <span class="text-slate-400">{{ $job->created_at?->diffForHumans() }}</span>
+        <a href="{{ route('jobs.show', $job) }}" class="font-bold text-blue-600 hover:underline">
+            Detail
+        </a>
     </div>
-
-    <div class="mt-4 flex items-center gap-2 text-sm">
-        <span class="font-extrabold text-[#155e75]">{{ $job->salary_range }}</span>
-    </div>
-    <p class="mt-1 text-sm text-ink-500">{{ $job->city ?? 'Lokasi fleksibel' }}</p>
-
-    <div class="mt-4 pt-4 border-t border-ink-100 flex items-center justify-between text-xs">
-        <span class="text-ink-400">{{ $job->created_at?->diffForHumans() }}</span>
-        <a href="{{ route('jobs.show', $job) }}" class="font-semibold text-[#1e4a6e] group-hover:gap-1.5 inline-flex items-center gap-1 transition-all">Lihat detail <span aria-hidden="true">&rarr;</span></a>
-    </div>
-</div>
+</article>

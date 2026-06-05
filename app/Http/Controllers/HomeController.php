@@ -32,7 +32,7 @@ class HomeController extends Controller
             ->active()
             ->filter($request)
             ->latest()
-            ->paginate(10)
+            ->paginate((int) setting('jobs_per_page', 10))
             ->withQueryString();
 
         $categories = Category::orderBy('name')->get();

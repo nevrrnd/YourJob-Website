@@ -30,6 +30,11 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        // Respect the admin "allow registration" site setting.
+        if (! setting('allow_registration', true)) {
+            return back()->with('error', 'Pendaftaran sedang ditutup oleh administrator.');
+        }
+
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
