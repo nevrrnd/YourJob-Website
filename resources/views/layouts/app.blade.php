@@ -189,64 +189,44 @@
         @yield('content')
     </main>
 
-    <footer class="bg-slate-950 py-16 text-white">
-        <div class="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-8 md:grid-cols-4">
-            <div>
-                <a class="mb-6 flex items-center gap-2 text-2xl font-black leading-8 text-white" href="{{ route('home') }}">
-                    <img src="{{ site_logo_url() }}" alt="YourJob" class="h-8 w-8 object-contain brightness-0 invert">
-                    YourJob
-                </a>
-                <p class="mb-6 text-xs font-medium leading-4 text-[#c3c5d9]">{{ setting('footer_text', 'Empowering the next generation of industry leaders through meaningful connections and transparent opportunities.') }}</p>
-                    @php
-                        $contactEmail = setting('contact_email');
-                        $contactPhone = setting('contact_phone');
-                        $socials = array_filter([
-                            'Facebook' => setting('social_facebook'),
-                            'Instagram' => setting('social_instagram'),
-                            'LinkedIn' => setting('social_linkedin'),
-                        ]);
-                    @endphp
-                    @if ($contactEmail || $contactPhone)
-                        <div class="space-y-1 text-xs font-medium leading-4 text-[#c3c5d9]">
-                            @if ($contactEmail)<p>Email: {{ $contactEmail }}</p>@endif
-                            @if ($contactPhone)<p>Telepon: {{ $contactPhone }}</p>@endif
-                        </div>
-                    @endif
-                    @if (count($socials))
-                        <div class="mt-4 flex gap-3 text-xs font-medium leading-4">
-                            @foreach ($socials as $name => $url)
-                                <a href="{{ $url }}" target="_blank" rel="noopener" class="text-[#c3c5d9] transition hover:text-white">{{ $name }}</a>
-                            @endforeach
-                        </div>
-                    @endif
+    <footer class="bg-slate-950 py-10 text-white">
+        @php
+            $contactEmail = setting('contact_email');
+            $contactPhone = setting('contact_phone');
+        @endphp
+        <div class="mx-auto flex max-w-7xl flex-col gap-8 px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+                <div class="max-w-xl">
+                    <a class="flex items-center gap-2 text-2xl font-black text-white" href="{{ route('home') }}">
+                        <img src="{{ site_logo_url() }}" alt="YourJob" class="h-8 w-8 object-contain brightness-0 invert">
+                        YourJob
+                    </a>
+                    <p class="mt-3 text-sm leading-6 text-slate-300">
+                        {{ setting('footer_text', 'Website lowongan kerja berbasis Laravel dan MySQL untuk menghubungkan pencari kerja dengan perusahaan.') }}
+                    </p>
+                </div>
+
+                <nav class="flex flex-wrap gap-x-5 gap-y-3 text-sm font-semibold text-slate-300">
+                    <a href="{{ route('home') }}" class="transition hover:text-white">Beranda</a>
+                    <a href="{{ route('jobs.index') }}" class="transition hover:text-white">Lowongan</a>
+                    @guest
+                        <button type="button" @click="authModal = 'login'" class="transition hover:text-white">Login</button>
+                        <button type="button" @click="authModal = 'register'" class="transition hover:text-white">Daftar</button>
+                    @else
+                        <a href="{{ route('dashboard') }}" class="transition hover:text-white">Dashboard</a>
+                    @endguest
+                </nav>
             </div>
-            <div>
-                <h4 class="mb-6 text-sm font-semibold leading-5 text-white">Platform</h4>
-                <ul class="space-y-4">
-                    <li><a class="text-xs font-medium leading-4 text-[#c3c5d9] transition hover:text-white" href="{{ route('jobs.index') }}">Browse Jobs</a></li>
-                    <li><a class="text-xs font-medium leading-4 text-[#f2b84b]" href="{{ route('jobs.index') }}">Company Directory</a></li>
-                    <li><a class="text-xs font-medium leading-4 text-[#c3c5d9] transition hover:text-white" href="{{ route('jobs.index') }}">Salary Tool</a></li>
-                </ul>
+
+            <div class="flex flex-col gap-3 border-t border-white/10 pt-6 text-xs font-medium text-slate-400 sm:flex-row sm:items-center sm:justify-between">
+                <p>&copy; {{ date('Y') }} YourJob. All rights reserved.</p>
+                @if ($contactEmail || $contactPhone)
+                    <div class="flex flex-wrap gap-x-4 gap-y-2">
+                        @if ($contactEmail)<span>Email: {{ $contactEmail }}</span>@endif
+                        @if ($contactPhone)<span>Telepon: {{ $contactPhone }}</span>@endif
+                    </div>
+                @endif
             </div>
-            <div>
-                <h4 class="mb-6 text-sm font-semibold leading-5 text-white">For Employers</h4>
-                <ul class="space-y-4">
-                    <li><button type="button" @click="authModal = 'register'" class="text-xs font-medium leading-4 text-[#c3c5d9] transition hover:text-white">Hire Talent</button></li>
-                    <li><button type="button" @click="authModal = 'register'" class="text-xs font-medium leading-4 text-[#c3c5d9] transition hover:text-white">Post a Job</button></li>
-                    <li><button type="button" @click="authModal = 'register'" class="text-xs font-medium leading-4 text-[#c3c5d9] transition hover:text-white">Pricing</button></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="mb-6 text-sm font-semibold leading-5 text-white">Resources</h4>
-                <ul class="space-y-4">
-                    <li><span class="text-xs font-medium leading-4 text-[#c3c5d9]">About Us</span></li>
-                    <li><span class="text-xs font-medium leading-4 text-[#c3c5d9]">Privacy Policy</span></li>
-                    <li><span class="text-xs font-medium leading-4 text-[#c3c5d9]">Support</span></li>
-                </ul>
-            </div>
-        </div>
-        <div class="mx-auto mt-12 max-w-7xl border-t border-white/10 px-8 pt-8 text-center">
-            <p class="text-xs font-medium leading-4 text-[#c3c5d9]">&copy; {{ date('Y') }} YourJob. All rights reserved. Built for high-growth teams.</p>
         </div>
     </footer>
 </body>
