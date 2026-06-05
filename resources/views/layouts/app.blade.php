@@ -203,7 +203,7 @@
             <div class="grid gap-8 md:grid-cols-[1.5fr_0.8fr_0.8fr_0.8fr]">
                 <div class="max-w-md">
                     <a class="flex items-center gap-2 text-2xl font-black text-white" href="{{ route('home') }}">
-                        <img src="{{ site_logo_url() }}" alt="YourJob" class="h-8 w-8 object-contain brightness-0 invert">
+                        <img src="{{ site_logo_url() }}" alt="YourJob" class="h-9 w-9 rounded-full bg-white object-contain p-1">
                         YourJob
                     </a>
                     <p class="mt-3 text-sm leading-6 text-slate-300">
