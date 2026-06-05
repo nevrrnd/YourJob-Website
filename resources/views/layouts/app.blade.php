@@ -193,10 +193,15 @@
         @php
             $contactEmail = setting('contact_email');
             $contactPhone = setting('contact_phone');
+            $socials = [
+                'Facebook' => setting('social_facebook'),
+                'Instagram' => setting('social_instagram'),
+                'LinkedIn' => setting('social_linkedin'),
+            ];
         @endphp
         <div class="mx-auto flex max-w-7xl flex-col gap-8 px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-                <div class="max-w-xl">
+            <div class="grid gap-8 md:grid-cols-[1.5fr_0.8fr_0.8fr_0.8fr]">
+                <div class="max-w-md">
                     <a class="flex items-center gap-2 text-2xl font-black text-white" href="{{ route('home') }}">
                         <img src="{{ site_logo_url() }}" alt="YourJob" class="h-8 w-8 object-contain brightness-0 invert">
                         YourJob
@@ -204,18 +209,55 @@
                     <p class="mt-3 text-sm leading-6 text-slate-300">
                         {{ setting('footer_text', 'Website lowongan kerja berbasis Laravel dan MySQL untuk menghubungkan pencari kerja dengan perusahaan.') }}
                     </p>
+                    @if (array_filter($socials))
+                        <div class="mt-5 flex flex-wrap gap-3 text-sm font-semibold text-slate-300">
+                            @foreach ($socials as $label => $url)
+                                @if ($url)
+                                    <a href="{{ $url }}" target="_blank" rel="noopener" class="transition hover:text-white">{{ $label }}</a>
+                                @endif
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
 
-                <nav class="flex flex-wrap gap-x-5 gap-y-3 text-sm font-semibold text-slate-300">
-                    <a href="{{ route('home') }}" class="transition hover:text-white">Beranda</a>
-                    <a href="{{ route('jobs.index') }}" class="transition hover:text-white">Lowongan</a>
+                <div>
+                    <h3 class="text-sm font-bold text-white">Platform</h3>
+                    <div class="mt-4 flex flex-col gap-3 text-sm font-medium text-slate-300">
+                        <a href="{{ route('home') }}" class="transition hover:text-white">Beranda</a>
+                        <a href="{{ route('jobs.index') }}" class="transition hover:text-white">Cari Lowongan</a>
+                        @auth
+                            <a href="{{ route('dashboard') }}" class="transition hover:text-white">Dashboard</a>
+                        @else
+                            <button type="button" @click="authModal = 'login'" class="text-left transition hover:text-white">Login</button>
+                        @endauth
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-sm font-bold text-white">Perusahaan</h3>
+                    <div class="mt-4 flex flex-col gap-3 text-sm font-medium text-slate-300">
+                        @guest
+                            <button type="button" @click="authModal = 'register'" class="text-left transition hover:text-white">Daftar Akun</button>
+                        @else
+                            <a href="{{ route('dashboard') }}" class="transition hover:text-white">Kelola Akun</a>
+                        @endguest
+                        <a href="{{ route('jobs.index') }}" class="transition hover:text-white">Lihat Kandidat</a>
+                        <a href="{{ route('jobs.index') }}" class="transition hover:text-white">Pasang Lowongan</a>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-sm font-bold text-white">Resource</h3>
+                    <div class="mt-4 flex flex-col gap-3 text-sm font-medium text-slate-300">
+                        <a href="{{ route('jobs.index') }}" class="transition hover:text-white">Lowongan Terbaru</a>
                     @guest
-                        <button type="button" @click="authModal = 'login'" class="transition hover:text-white">Login</button>
-                        <button type="button" @click="authModal = 'register'" class="transition hover:text-white">Daftar</button>
+                            <button type="button" @click="authModal = 'register'" class="text-left transition hover:text-white">Mulai Gratis</button>
                     @else
-                        <a href="{{ route('dashboard') }}" class="transition hover:text-white">Dashboard</a>
+                            <a href="{{ route('preferences') }}" class="transition hover:text-white">Preferensi</a>
                     @endguest
-                </nav>
+                        <a href="{{ route('home') }}" class="transition hover:text-white">Tentang YourJob</a>
+                    </div>
+                </div>
             </div>
 
             <div class="flex flex-col gap-3 border-t border-white/10 pt-6 text-xs font-medium text-slate-400 sm:flex-row sm:items-center sm:justify-between">
