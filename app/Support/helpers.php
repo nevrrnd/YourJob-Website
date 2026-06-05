@@ -16,3 +16,15 @@ if (! function_exists('setting')) {
         }
     }
 }
+
+if (! function_exists('site_logo_url')) {
+    /**
+     * Resolve the configured site logo, falling back to the bundled logo.
+     */
+    function site_logo_url(): string
+    {
+        $logo = setting('site_logo');
+
+        return $logo ? asset('storage/' . $logo) : asset('logo.png');
+    }
+}

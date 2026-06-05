@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title ?? setting('site_name', config('app.name', 'YourJob')) }}</title>
-    <link rel="icon" type="image/png" href="{{ asset('logo.png') }}">
-    <link rel="apple-touch-icon" href="{{ asset('logo.png') }}">
+    <link rel="icon" type="image/png" href="{{ site_logo_url() }}">
+    <link rel="apple-touch-icon" href="{{ site_logo_url() }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -17,7 +17,7 @@
     <header x-data="{ open: false }" class="sticky top-0 z-50 border-b border-slate-200/80 bg-white/90 backdrop-blur">
         <nav class="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
             <a href="{{ route('home') }}" class="flex items-center gap-2 text-xl font-extrabold tracking-tight text-slate-950">
-                <img src="{{ asset('logo.png') }}" alt="YourJob" class="h-8 w-8 object-contain">
+                <img src="{{ site_logo_url() }}" alt="YourJob" class="h-8 w-8 object-contain">
                 YourJob
             </a>
             <div class="hidden items-center gap-5 text-sm sm:flex">
@@ -193,7 +193,7 @@
         <div class="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-8 md:grid-cols-4">
             <div>
                 <a class="mb-6 flex items-center gap-2 text-2xl font-black leading-8 text-white" href="{{ route('home') }}">
-                    <img src="{{ asset('logo.png') }}" alt="YourJob" class="h-8 w-8 object-contain brightness-0 invert">
+                    <img src="{{ site_logo_url() }}" alt="YourJob" class="h-8 w-8 object-contain brightness-0 invert">
                     YourJob
                 </a>
                 <p class="mb-6 text-xs font-medium leading-4 text-[#c3c5d9]">{{ setting('footer_text', 'Empowering the next generation of industry leaders through meaningful connections and transparent opportunities.') }}</p>

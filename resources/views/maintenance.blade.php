@@ -4,14 +4,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ setting('site_name', 'YourJob') }} - Pemeliharaan</title>
-    <link rel="icon" type="image/png" href="{{ asset('logo.png') }}">
+    <link rel="icon" type="image/png" href="{{ site_logo_url() }}">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css'])
 </head>
 <body class="grid min-h-screen place-items-center bg-[#150726] px-6 text-center font-sans antialiased">
     <div class="max-w-md">
         <a href="{{ url('/') }}" class="mb-8 inline-flex items-center gap-2 text-2xl font-extrabold text-white">
-            <img src="{{ asset('logo.png') }}" alt="YourJob" class="h-8 w-8 object-contain brightness-0 invert">
+            <img src="{{ site_logo_url() }}" alt="YourJob" class="h-8 w-8 object-contain brightness-0 invert">
             YourJob
         </a>
         <div class="mx-auto mb-5 grid h-16 w-16 place-items-center rounded-xl bg-[#f2b84b] text-[#150726]">

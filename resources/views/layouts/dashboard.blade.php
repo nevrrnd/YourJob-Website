@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ __($title ?? 'Dashboard') }} - YourJob</title>
-    <link rel="icon" type="image/png" href="{{ asset('logo.png') }}">
-    <link rel="apple-touch-icon" href="{{ asset('logo.png') }}">
+    <link rel="icon" type="image/png" href="{{ site_logo_url() }}">
+    <link rel="apple-touch-icon" href="{{ site_logo_url() }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -50,7 +50,7 @@
     <aside class="fixed inset-y-0 left-0 z-50 hidden w-[280px] border-r border-slate-200 bg-white lg:flex lg:flex-col">
         <div class="flex h-20 items-center px-7">
             <a href="{{ route('home') }}" class="flex items-center gap-2 text-2xl font-extrabold tracking-tight text-slate-950">
-                <img src="{{ asset('logo.png') }}" alt="YourJob" class="h-8 w-8 object-contain">
+                <img src="{{ site_logo_url() }}" alt="YourJob" class="h-8 w-8 object-contain">
                 YourJob
             </a>
         </div>
@@ -93,7 +93,7 @@
         <header class="sticky top-0 z-40 border-b border-slate-200 bg-slate-50/95 backdrop-blur">
             <div class="flex min-h-16 items-center justify-between gap-4 px-5 sm:px-8">
                 <a href="{{ route('home') }}" class="flex items-center gap-2 text-xl font-extrabold text-slate-950 lg:hidden">
-                    <img src="{{ asset('logo.png') }}" alt="YourJob" class="h-7 w-7 object-contain">
+                    <img src="{{ site_logo_url() }}" alt="YourJob" class="h-7 w-7 object-contain">
                     YourJob
                 </a>
                 <div class="hidden text-sm font-semibold text-slate-500 lg:block">{{ __($title ?? 'Dashboard') }}</div>

@@ -8,7 +8,7 @@
     $textAccent = $invert ? 'text-[#b7c4ff]' : 'text-[#003ec7]';
 @endphp
 <span {{ $attributes->merge(['class' => 'inline-flex items-center gap-2 font-bold leading-none select-none']) }}>
-    <img src="{{ asset('logo.png') }}" alt="YourJob"
+    <img src="{{ site_logo_url() }}" alt="YourJob"
          width="{{ $size }}" height="{{ $size }}"
          class="shrink-0 object-contain {{ $invert ? 'brightness-0 invert' : '' }}">
     @if ($wordmark)
