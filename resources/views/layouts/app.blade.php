@@ -21,7 +21,7 @@
     <header x-data="{ open: false }" class="sticky top-0 z-50 border-b border-slate-200/80 bg-white/90 backdrop-blur">
         <nav class="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
             <a href="{{ route('home') }}" class="flex items-center gap-2 text-xl font-extrabold tracking-tight text-slate-950">
-                <img src="{{ site_logo_url() }}" alt="YourJob" class="h-8 w-8 object-contain">
+                <img src="{{ site_logo_url() }}" alt="YourJob" width="32" height="32" fetchpriority="high" class="h-8 w-8 object-contain">
                 YourJob
             </a>
             <div class="hidden items-center gap-5 text-sm sm:flex">
@@ -207,7 +207,7 @@
             <div class="grid gap-8 md:grid-cols-[1.5fr_0.8fr_0.8fr_0.8fr]">
                 <div class="max-w-md">
                     <a class="flex items-center gap-2 text-2xl font-black text-white" href="{{ route('home') }}">
-                        <img src="{{ site_logo_url() }}" alt="YourJob" class="h-9 w-9 rounded-full bg-white object-contain p-1">
+                        <img src="{{ site_logo_url() }}" alt="YourJob" width="36" height="36" loading="lazy" class="h-9 w-9 rounded-full bg-white object-contain p-1">
                         YourJob
                     </a>
                     <p class="mt-3 text-sm leading-6 text-slate-300">
