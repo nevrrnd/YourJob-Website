@@ -16,10 +16,7 @@
         </div>
         <div class="relative mx-auto grid max-w-7xl items-center gap-10 px-4 py-12 sm:px-6 sm:py-16 lg:min-h-[calc(100vh-4rem)] lg:grid-cols-[1.05fr_0.95fr] lg:px-8">
             <div>
-                <span class="inline-flex animate-fade-up rounded-full bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-600 ring-1 ring-blue-100 sm:px-4 sm:py-2 sm:text-sm">
-                    Portal kerja modern untuk talenta digital
-                </span>
-                <h1 class="mt-5 max-w-4xl animate-fade-up text-3xl font-extrabold leading-tight tracking-tight text-slate-950 [animation-delay:80ms] sm:mt-6 sm:text-5xl lg:text-6xl">
+                <h1 class="max-w-4xl animate-fade-up text-3xl font-extrabold leading-tight tracking-tight text-slate-950 [animation-delay:80ms] sm:text-5xl lg:text-6xl">
                     Temukan karier berikutnya dengan <span class="text-blue-600">momentum</span> yang tepat.
                 </h1>
                 <p class="mt-4 max-w-2xl animate-fade-up text-base leading-7 text-slate-600 [animation-delay:160ms] sm:mt-6 sm:text-lg sm:leading-8">
