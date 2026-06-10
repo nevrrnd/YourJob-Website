@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\CompanyProfile;
+use App\Models\LoginHistory;
 use App\Models\SeekerProfile;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -20,7 +21,7 @@ class GoogleAuthController extends Controller
         return Socialite::driver('google')->redirect();
     }
 
-    public function callback(): RedirectResponse
+    public function callback(Request $request): RedirectResponse
     {
         $googleUser = Socialite::driver('google')->stateless()->user();
 
@@ -49,6 +50,7 @@ class GoogleAuthController extends Controller
         }
 
         Auth::login($user, true);
+        LoginHistory::recordAdminLogin($request, $user);
 
         if (session('needs_onboarding')) {
             return redirect()->route('google.onboarding');

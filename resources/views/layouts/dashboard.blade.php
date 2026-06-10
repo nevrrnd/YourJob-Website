@@ -33,6 +33,7 @@
             ['admin.companies', 'Perusahaan', 'domain', []],
             ['admin.jobs', 'Lowongan', 'work', []],
             ['admin.categories.index', 'Kategori', 'category', []],
+            ['admin.login-histories.index', 'Login Admin', 'devices', []],
             ['admin.settings', 'Pengaturan', 'tune', []],
         ],
         'employer' => [

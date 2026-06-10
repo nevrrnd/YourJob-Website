@@ -83,6 +83,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Job::class, 'saved_jobs');
     }
 
+    public function loginHistories()
+    {
+        return $this->hasMany(LoginHistory::class);
+    }
+
     // ---- Helpers ----
 
     public function isAdmin(): bool

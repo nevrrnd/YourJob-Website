@@ -50,6 +50,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::delete('/users/{user}', [Admin\UserController::class, 'destroy'])->name('users.destroy');
     Route::get('/lowongan', [Admin\JobController::class, 'index'])->name('jobs');
     Route::delete('/lowongan/{job:slug}', [Admin\JobController::class, 'destroy'])->name('jobs.destroy');
+    Route::get('/login-admin', [Admin\LoginHistoryController::class, 'index'])->name('login-histories.index');
     Route::get('/perusahaan', [Admin\CompanyController::class, 'index'])->name('companies');
     Route::patch('/perusahaan/{company}/verify', [Admin\CompanyController::class, 'verify'])->name('companies.verify');
     Route::resource('kategori', Admin\CategoryController::class)->names('categories');
