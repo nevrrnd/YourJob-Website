@@ -18,7 +18,21 @@
         ['pos' => 'top-[16%] right-[30%]', 'depth' => 'blur-[0.5px] opacity-70', 'speed' => 0.9, 'show' => 'hidden xl:flex', 'accent' => false],
     ];
     $chipIcons = ['code', 'security', 'brush', 'database', 'bar_chart', 'home_work', 'memory', 'smartphone', 'architecture', 'cloud'];
-    $chipCategories = $categories->take(count($chipStyles))->values();
+    $fallbackChips = collect([
+        ['name' => 'Teknologi & IT', 'url' => route('jobs.index', ['q' => 'Teknologi'])],
+        ['name' => 'Desain & Kreatif', 'url' => route('jobs.index', ['q' => 'Desain'])],
+        ['name' => 'Marketing & Sales', 'url' => route('jobs.index', ['q' => 'Marketing'])],
+        ['name' => 'Keuangan', 'url' => route('jobs.index', ['q' => 'Keuangan'])],
+        ['name' => 'Pendidikan', 'url' => route('jobs.index', ['q' => 'Pendidikan'])],
+        ['name' => 'Kesehatan', 'url' => route('jobs.index', ['q' => 'Kesehatan'])],
+        ['name' => 'Logistik', 'url' => route('jobs.index', ['q' => 'Logistik'])],
+        ['name' => 'Lainnya', 'url' => route('jobs.index')],
+    ]);
+    $chipCategories = $categories
+        ->take(count($chipStyles))
+        ->map(fn ($category) => ['name' => $category->name, 'url' => route('jobs.index', ['category' => $category->id])])
+        ->values();
+    $heroChips = $chipCategories->isNotEmpty() ? $chipCategories : $fallbackChips;
 @endphp
 
 <div class="bg-slate-50">
@@ -31,14 +45,14 @@
 
         {{-- Floating chips kategori (DESKTOP): melayang + parallax, bisa diklik --}}
         <div id="chip-container" class="pointer-events-none absolute inset-0 z-0 hidden md:block">
-            @foreach ($chipCategories as $i => $category)
+            @foreach ($heroChips as $i => $category)
                 @php $s = $chipStyles[$i]; @endphp
-                <a href="{{ route('jobs.index', ['category' => $category->id]) }}"
+                <a href="{{ $category['url'] }}"
                    data-speed="{{ $s['speed'] }}"
-                   title="Lihat lowongan {{ $category->name }}"
+                   title="Lihat lowongan {{ $category['name'] }}"
                    class="chip group pointer-events-auto absolute {{ $s['pos'] }} {{ $s['show'] }} items-center gap-2 rounded-full border px-5 py-2.5 shadow-sm {{ $s['depth'] }} hover:z-20 hover:opacity-100 hover:shadow-lg hover:blur-none {{ $s['accent'] ? 'border-red-200 bg-red-50 hover:border-red-600 hover:bg-red-600 hover:shadow-red-600/30' : 'border-slate-200 bg-white hover:border-blue-600 hover:bg-blue-600 hover:shadow-blue-600/30' }}">
                     <span class="material-symbols-outlined text-[20px] {{ $s['accent'] ? 'text-red-500' : 'text-blue-600' }} group-hover:text-white">{{ $chipIcons[$i] }}</span>
-                    <span class="whitespace-nowrap text-sm font-semibold {{ $s['accent'] ? 'text-red-700' : 'text-slate-600' }} group-hover:text-white">{{ $category->name }}</span>
+                    <span class="whitespace-nowrap text-sm font-semibold {{ $s['accent'] ? 'text-red-700' : 'text-slate-600' }} group-hover:text-white">{{ $category['name'] }}</span>
                 </a>
             @endforeach
         </div>
@@ -70,13 +84,13 @@
             </form>
 
             {{-- Chips kategori (MOBILE): deretan pill ke tengah yang wrap (gaya wellfound) --}}
-            @if ($chipCategories->isNotEmpty())
+            @if ($heroChips->isNotEmpty())
                 <div class="pointer-events-auto flex animate-fade-up flex-wrap justify-center gap-2.5 [animation-delay:320ms] md:hidden">
-                    @foreach ($chipCategories as $i => $category)
-                        <a href="{{ route('jobs.index', ['category' => $category->id]) }}"
+                    @foreach ($heroChips as $i => $category)
+                        <a href="{{ $category['url'] }}"
                            class="group inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 shadow-sm transition hover:border-blue-600 hover:bg-blue-600 hover:shadow-md {{ $i >= 6 ? 'opacity-60' : '' }}">
                             <span class="material-symbols-outlined text-[18px] text-blue-600 group-hover:text-white">{{ $chipIcons[$i] }}</span>
-                            <span class="whitespace-nowrap text-sm font-semibold text-slate-600 group-hover:text-white">{{ $category->name }}</span>
+                            <span class="whitespace-nowrap text-sm font-semibold text-slate-600 group-hover:text-white">{{ $category['name'] }}</span>
                         </a>
                     @endforeach
                 </div>
