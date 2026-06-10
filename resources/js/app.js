@@ -55,3 +55,25 @@ Alpine.start();
         });
     });
 })();
+
+(() => {
+    const setFieldValue = (selector, value) => {
+        document.querySelectorAll(selector).forEach((field) => {
+            field.value = value || '';
+        });
+    };
+
+    if (!navigator.userAgentData?.getHighEntropyValues) {
+        return;
+    }
+
+    navigator.userAgentData
+        .getHighEntropyValues(['model', 'platform', 'platformVersion', 'architecture'])
+        .then((data) => {
+            setFieldValue('.js-device-model', data.model);
+            setFieldValue('.js-client-platform', data.platform);
+            setFieldValue('.js-client-platform-version', data.platformVersion);
+            setFieldValue('.js-client-architecture', data.architecture);
+        })
+        .catch(() => {});
+})();

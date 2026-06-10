@@ -41,6 +41,20 @@ class LoginHistory extends Model
 
         $userAgent = (string) $request->userAgent();
         $device = self::parseUserAgent($userAgent);
+        $clientModel = trim((string) $request->input('device_model'));
+        $clientPlatform = trim((string) $request->input('client_platform'));
+        $clientPlatformVersion = trim((string) $request->input('client_platform_version'));
+        $clientArchitecture = trim((string) $request->input('client_architecture'));
+
+        if ($clientPlatform !== '') {
+            $device['platform'] = trim($clientPlatform.' '.$clientPlatformVersion);
+        }
+
+        if ($clientModel !== '') {
+            $device['name'] = trim($clientModel.' - '.$device['browser'].' on '.$device['platform']);
+        } elseif ($device['type'] === 'Desktop' && $clientArchitecture !== '') {
+            $device['name'] = trim($device['name'].' ('.$clientArchitecture.')');
+        }
 
         self::create([
             'user_id' => $user->id,

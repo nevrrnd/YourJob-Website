@@ -11,6 +11,10 @@
 
     <form method="POST" action="{{ route('login') }}" class="space-y-4">
         @csrf
+        <input type="hidden" name="device_model" class="js-device-model">
+        <input type="hidden" name="client_platform" class="js-client-platform">
+        <input type="hidden" name="client_platform_version" class="js-client-platform-version">
+        <input type="hidden" name="client_architecture" class="js-client-architecture">
 
         <a href="{{ route('google.redirect') }}" class="inline-flex w-full items-center justify-center gap-3 rounded-lg border border-[#c3c5d9] bg-white px-5 py-3 text-sm font-bold text-[#434656] shadow-sm transition hover:border-[#003ec7] hover:text-[#003ec7]">
             <span class="grid h-5 w-5 place-items-center rounded-full bg-white text-sm font-extrabold text-[#4285f4]">G</span>
