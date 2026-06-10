@@ -36,7 +36,7 @@
 @endphp
 
 <div class="bg-slate-50">
-    <section class="parallax-wrapper relative flex min-h-[calc(100vh-4rem)] items-center overflow-hidden bg-gradient-to-b from-blue-50/60 via-white to-slate-50 px-4 py-16 sm:px-6 lg:px-8">
+    <section class="parallax-wrapper relative flex min-h-[calc(100vh-4rem)] items-start overflow-hidden bg-gradient-to-b from-blue-50/60 via-white to-slate-50 px-4 pb-14 pt-10 sm:px-6 sm:py-16 md:items-center lg:px-8">
         <div aria-hidden="true" class="pointer-events-none absolute inset-0 overflow-hidden">
             <div class="absolute inset-0 bg-grid-faint [background-size:44px_44px] [mask-image:radial-gradient(ellipse_70%_60%_at_50%_0%,black,transparent)]"></div>
             <div class="absolute -left-20 -top-10 h-80 w-80 rounded-full bg-blue-400/30 blur-3xl animate-blob sm:h-[28rem] sm:w-[28rem]"></div>
@@ -50,7 +50,7 @@
                 <a href="{{ $category['url'] }}"
                    data-speed="{{ $s['speed'] }}"
                    title="Lihat lowongan {{ $category['name'] }}"
-                   class="chip group pointer-events-auto absolute {{ $s['pos'] }} {{ $s['show'] }} items-center gap-2 rounded-full border px-5 py-2.5 shadow-sm {{ $s['depth'] }} hover:z-20 hover:opacity-100 hover:shadow-lg hover:blur-none {{ $s['accent'] ? 'border-red-200 bg-red-50 hover:border-red-600 hover:bg-red-600 hover:shadow-red-600/30' : 'border-slate-200 bg-white hover:border-blue-600 hover:bg-blue-600 hover:shadow-blue-600/30' }}">
+                   class="chip group pointer-events-auto absolute {{ $s['pos'] }} {{ $s['show'] }} items-center gap-2 rounded-full border px-5 py-2.5 shadow-sm {{ $s['depth'] }} hover:z-20 hover:scale-110 hover:opacity-100 hover:shadow-xl hover:blur-none active:scale-95 {{ $s['accent'] ? 'border-red-200 bg-red-50 hover:border-red-600 hover:bg-red-600 hover:shadow-red-600/30' : 'border-slate-200 bg-white hover:border-blue-600 hover:bg-blue-600 hover:shadow-blue-600/30' }}">
                     <span class="material-symbols-outlined text-[20px] {{ $s['accent'] ? 'text-red-500' : 'text-blue-600' }} group-hover:text-white">{{ $chipIcons[$i] }}</span>
                     <span class="whitespace-nowrap text-sm font-semibold {{ $s['accent'] ? 'text-red-700' : 'text-slate-600' }} group-hover:text-white">{{ $category['name'] }}</span>
                 </a>
@@ -58,26 +58,26 @@
         </div>
 
         {{-- Hero content (tanpa card) --}}
-        <div class="pointer-events-none relative z-10 mx-auto w-full max-w-3xl space-y-8 text-center">
-            <div class="space-y-4">
-                <h1 class="animate-fade-up text-balance text-3xl font-extrabold leading-tight tracking-tight text-slate-950 [animation-delay:80ms] sm:text-5xl lg:text-6xl">
+        <div class="pointer-events-none relative z-10 mx-auto w-full max-w-3xl space-y-6 text-center sm:space-y-8">
+            <div class="space-y-3 sm:space-y-4">
+                <h1 class="animate-fade-up text-balance text-[2rem] font-extrabold leading-[1.08] tracking-tight text-slate-950 [animation-delay:80ms] sm:text-5xl lg:text-6xl">
                     Temukan karier berikutnya dengan <span class="text-blue-600">momentum</span> yang tepat.
                 </h1>
-                <p class="mx-auto max-w-xl animate-fade-up text-balance text-base leading-7 text-slate-600 [animation-delay:160ms] sm:text-lg">
+                <p class="mx-auto max-w-xl animate-fade-up text-balance text-sm leading-6 text-slate-600 [animation-delay:160ms] sm:text-lg sm:leading-7">
                     Jelajahi lowongan pilihan, simpan pekerjaan favorit, dan kirim lamaran dari satu tempat yang rapi.
                 </p>
             </div>
 
             <form action="{{ route('jobs.index') }}" method="GET" class="pointer-events-auto grid animate-fade-up gap-2 rounded-2xl border border-slate-200 bg-white p-2 shadow-xl shadow-blue-200/40 [animation-delay:240ms] md:grid-cols-[1fr_1fr_auto]">
                 <div class="relative flex items-center rounded-xl bg-slate-50 px-3">
-                    <span class="material-symbols-outlined pointer-events-none text-[20px] text-slate-400">search</span>
-                    <input name="q" value="{{ request('q') }}" class="min-h-12 w-full border-none bg-transparent px-2 text-sm text-slate-900 outline-none placeholder:text-slate-400 focus:ring-0" placeholder="Job title, company, keyword">
+                    <span class="material-symbols-outlined pointer-events-none text-[18px] text-slate-400 sm:text-[20px]">search</span>
+                    <input name="q" value="{{ request('q') }}" class="min-h-11 w-full border-none bg-transparent px-2 text-sm text-slate-900 outline-none placeholder:text-slate-400 focus:ring-0 sm:min-h-12" placeholder="Job title, company, keyword">
                 </div>
                 <div class="relative flex items-center rounded-xl bg-slate-50 px-3">
-                    <span class="material-symbols-outlined pointer-events-none text-[20px] text-slate-400">location_on</span>
-                    <input name="city" value="{{ request('city') }}" class="min-h-12 w-full border-none bg-transparent px-2 text-sm text-slate-900 outline-none placeholder:text-slate-400 focus:ring-0" placeholder="City or Remote">
+                    <span class="material-symbols-outlined pointer-events-none text-[18px] text-slate-400 sm:text-[20px]">location_on</span>
+                    <input name="city" value="{{ request('city') }}" class="min-h-11 w-full border-none bg-transparent px-2 text-sm text-slate-900 outline-none placeholder:text-slate-400 focus:ring-0 sm:min-h-12" placeholder="City or Remote">
                 </div>
-                <button class="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 text-sm font-bold text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-700 active:scale-[0.98]">
+                <button class="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 text-sm font-bold text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-700 active:scale-[0.98] sm:min-h-12">
                     <span class="material-symbols-outlined text-[20px]">search</span>
                     Find Jobs
                 </button>
@@ -85,12 +85,12 @@
 
             {{-- Chips kategori (MOBILE): deretan pill ke tengah yang wrap (gaya wellfound) --}}
             @if ($heroChips->isNotEmpty())
-                <div class="pointer-events-auto flex animate-fade-up flex-wrap justify-center gap-2.5 [animation-delay:320ms] md:hidden">
+                <div class="pointer-events-auto mx-auto grid w-full max-w-sm animate-fade-up grid-cols-2 gap-2.5 [animation-delay:320ms] md:hidden">
                     @foreach ($heroChips as $i => $category)
                         <a href="{{ $category['url'] }}"
-                           class="group inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 shadow-sm transition hover:border-blue-600 hover:bg-blue-600 hover:shadow-md {{ $i >= 6 ? 'opacity-60' : '' }}">
+                           class="group inline-flex min-h-9 items-center justify-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-center shadow-sm transition hover:scale-105 hover:border-blue-600 hover:bg-blue-600 hover:opacity-100 hover:shadow-md focus-visible:opacity-100 active:scale-95 {{ $i >= 6 ? 'opacity-60' : '' }}">
                             <span class="material-symbols-outlined text-[18px] text-blue-600 group-hover:text-white">{{ $chipIcons[$i] }}</span>
-                            <span class="whitespace-nowrap text-sm font-semibold text-slate-600 group-hover:text-white">{{ $category['name'] }}</span>
+                            <span class="min-w-0 truncate text-xs font-semibold text-slate-600 group-hover:text-white">{{ $category['name'] }}</span>
                         </a>
                     @endforeach
                 </div>
@@ -152,16 +152,17 @@
     {{-- Company logos strip (placeholder) --}}
     <section class="bg-gradient-to-b from-slate-50 via-white to-slate-50 px-4 py-14 sm:py-20">
         <div class="mx-auto max-w-7xl text-center">
-            <h2 class="mb-10 text-xl font-bold text-slate-500">Perusahaan yang sudah bergabung</h2>
-            <div class="grid grid-cols-3 items-center justify-items-center gap-8 md:grid-cols-4 lg:grid-cols-6">
+            <h2 class="mx-auto mb-8 max-w-xs text-lg font-bold leading-snug text-slate-500 sm:mb-10 sm:max-w-none sm:text-xl">Perusahaan yang sudah bergabung</h2>
+            <div class="grid grid-cols-2 items-center gap-x-4 gap-y-5 sm:grid-cols-3 md:grid-cols-4 md:gap-8 lg:grid-cols-6">
                 @foreach ([
                     ['rocket_launch', 'Acme'], ['code_blocks', 'DevCo'], ['payments', 'FinStart'],
                     ['shopping_bag', 'ShopAI'], ['health_and_safety', 'MedTech'], ['eco', 'GreenEnergy'],
                     ['public', 'GlobalNet'], ['auto_awesome', 'CreativeSy'], ['database', 'DataCore'],
                     ['shield', 'SecureIT'], ['architecture', 'BuildPro'], ['psychology', 'MindAI'],
                 ] as $i => [$icon, $name])
-                    <div class="flex items-center gap-2 text-xl font-bold text-slate-800 opacity-50 grayscale transition-all duration-300 hover:opacity-100 hover:grayscale-0 {{ $i >= 6 ? 'hidden md:flex' : '' }}">
-                        <span class="material-symbols-outlined text-blue-600">{{ $icon }}</span> {{ $name }}
+                    <div class="mx-auto flex w-full max-w-[9rem] items-center justify-center gap-1.5 rounded-xl px-2 py-1.5 text-base font-bold text-slate-800 opacity-50 grayscale transition-all duration-300 hover:opacity-100 hover:grayscale-0 sm:max-w-none sm:gap-2 sm:text-xl {{ $i >= 6 ? 'hidden md:flex' : '' }}">
+                        <span class="material-symbols-outlined shrink-0 text-[18px] text-blue-600 sm:text-[24px]">{{ $icon }}</span>
+                        <span class="min-w-0 truncate">{{ $name }}</span>
                     </div>
                 @endforeach
             </div>
@@ -238,22 +239,22 @@
     </section>
 
     {{-- Bottom CTA --}}
-    <section class="bg-slate-900 px-4 py-20 text-center text-white">
+    <section class="bg-slate-900 px-4 py-16 text-center text-white sm:py-20">
         <div class="mx-auto max-w-2xl">
-            <h2 class="text-3xl font-extrabold tracking-tight sm:text-4xl">Siap Memulai?</h2>
-            <p class="mx-auto mt-4 max-w-xl text-base text-slate-300 sm:text-lg">
+            <h2 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">Siap Memulai?</h2>
+            <p class="mx-auto mt-4 max-w-xl text-sm leading-6 text-slate-300 sm:text-lg sm:leading-7">
                 Bergabunglah dengan talenta dan perusahaan lainnya di YourJob hari ini.
             </p>
-            <div class="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
-                <a href="{{ route('jobs.index') }}" class="inline-flex items-center justify-center rounded-xl bg-blue-600 px-8 py-4 text-sm font-bold text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-700">
+            <div class="mt-9 flex flex-col justify-center gap-3 sm:mt-10 sm:flex-row sm:gap-4">
+                <a href="{{ route('jobs.index') }}" class="inline-flex min-h-12 items-center justify-center rounded-xl bg-blue-600 px-8 py-3.5 text-sm font-bold text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-700 sm:py-4">
                     Cari Pekerjaan Sekarang
                 </a>
                 @auth
-                    <a href="{{ route('dashboard') }}" class="inline-flex items-center justify-center rounded-xl border border-white/30 bg-transparent px-8 py-4 text-sm font-bold text-white transition hover:bg-white/10">
+                    <a href="{{ route('dashboard') }}" class="inline-flex min-h-12 items-center justify-center rounded-xl border border-white/30 bg-transparent px-8 py-3.5 text-sm font-bold text-white transition hover:bg-white/10 sm:py-4">
                         Post Pekerjaan
                     </a>
                 @else
-                    <button type="button" @click="authModal = 'register'" class="inline-flex items-center justify-center rounded-xl border border-white/30 bg-transparent px-8 py-4 text-sm font-bold text-white transition hover:bg-white/10">
+                    <button type="button" @click="authModal = 'register'" class="inline-flex min-h-12 items-center justify-center rounded-xl border border-white/30 bg-transparent px-8 py-3.5 text-sm font-bold text-white transition hover:bg-white/10 sm:py-4">
                         Post Pekerjaan
                     </button>
                 @endauth

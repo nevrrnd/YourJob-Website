@@ -24,7 +24,8 @@ Alpine.start();
         frame = null;
         chips.forEach((chip) => {
             const speed = parseFloat(chip.dataset.speed) || 1;
-            chip.style.transform = `translate(${mouseX * 22 * speed}px, ${mouseY * 22 * speed}px)`;
+            const scale = chip.dataset.pressed === 'true' ? 0.95 : (chip.dataset.hovered === 'true' ? 1.1 : 1);
+            chip.style.transform = `translate(${mouseX * 22 * speed}px, ${mouseY * 22 * speed}px) scale(${scale})`;
         });
     };
 
@@ -32,5 +33,25 @@ Alpine.start();
         mouseX = e.clientX / window.innerWidth - 0.5;
         mouseY = e.clientY / window.innerHeight - 0.5;
         if (!frame) frame = requestAnimationFrame(apply);
+    });
+
+    chips.forEach((chip) => {
+        chip.addEventListener('mouseenter', () => {
+            chip.dataset.hovered = 'true';
+            if (!frame) frame = requestAnimationFrame(apply);
+        });
+        chip.addEventListener('mouseleave', () => {
+            chip.dataset.hovered = 'false';
+            chip.dataset.pressed = 'false';
+            if (!frame) frame = requestAnimationFrame(apply);
+        });
+        chip.addEventListener('mousedown', () => {
+            chip.dataset.pressed = 'true';
+            if (!frame) frame = requestAnimationFrame(apply);
+        });
+        chip.addEventListener('mouseup', () => {
+            chip.dataset.pressed = 'false';
+            if (!frame) frame = requestAnimationFrame(apply);
+        });
     });
 })();
