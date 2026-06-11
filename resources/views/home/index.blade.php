@@ -2,9 +2,9 @@
 
 @section('content')
 @php
-    // Preset posisi + gaya kedalaman untuk floating chips kategori.
-    // 'show' diatur per-breakpoint agar responsif: 2 chip teratas tampil di HP (zona aman atas),
-    // sisanya bertambah seiring layar membesar.
+    // Preset posisi dan kedalaman untuk chip kategori yang melayang.
+    // Nilai 'show' diatur per breakpoint: di HP cukup dua chip dulu,
+    // lalu jumlahnya bertambah saat layar makin lebar.
     $chipStyles = [
         ['pos' => 'top-[7%] left-[6%]',    'depth' => '',                        'speed' => 1.5, 'show' => 'flex',           'accent' => false],
         ['pos' => 'top-[7%] right-[6%]',   'depth' => '',                        'speed' => 1.2, 'show' => 'flex',           'accent' => true],
@@ -43,7 +43,7 @@
             <div class="absolute right-0 top-16 h-80 w-80 rounded-full bg-violet-400/25 blur-3xl animate-blob-slow [animation-delay:-4s] sm:h-[26rem] sm:w-[26rem]"></div>
         </div>
 
-        {{-- Floating chips kategori (DESKTOP): melayang + parallax, bisa diklik --}}
+        {{-- Chip kategori desktop: melayang, ada parallax, dan bisa diklik --}}
         <div id="chip-container" class="pointer-events-none absolute inset-0 z-0 hidden md:block">
             @foreach ($heroChips as $i => $category)
                 @php $s = $chipStyles[$i]; @endphp
@@ -57,7 +57,7 @@
             @endforeach
         </div>
 
-        {{-- Hero content (tanpa card) --}}
+        {{-- Konten hero utama, sengaja tanpa card supaya terasa lega --}}
         <div class="pointer-events-none relative z-10 mx-auto w-full max-w-3xl space-y-6 text-center sm:space-y-8">
             <div class="space-y-3 sm:space-y-4">
                 <h1 class="animate-fade-up text-balance text-[2rem] font-extrabold leading-[1.08] tracking-tight text-slate-950 [animation-delay:80ms] sm:text-5xl lg:text-6xl">
@@ -83,7 +83,7 @@
                 </button>
             </form>
 
-            {{-- Chips kategori (MOBILE): deretan pill ke tengah yang wrap (gaya wellfound) --}}
+            {{-- Chip kategori mobile: dibuat wrap ke tengah agar tetap rapi --}}
             @if ($heroChips->isNotEmpty())
                 <div class="pointer-events-auto mx-auto grid w-full max-w-sm animate-fade-up grid-cols-2 gap-2.5 [animation-delay:320ms] md:hidden">
                     @foreach ($heroChips as $i => $category)
@@ -98,10 +98,10 @@
         </div>
     </section>
 
-    {{-- Browse Categories: Roles (real) / Locations / Industries --}}
+    {{-- Jelajah kategori: role asli dari database, plus lokasi dan industri --}}
     <section class="border-t border-slate-200 bg-gradient-to-b from-white via-slate-50/60 to-white px-4 py-14 sm:py-20">
         <div class="mx-auto max-w-7xl">
-            <h2 class="mb-10 text-center text-2xl font-bold tracking-tight text-slate-950 sm:mb-12 sm:text-3xl">Temukan pekerjaan yang tepat</h2>
+            <h2 data-reveal="pop" class="mb-10 text-center text-2xl font-bold tracking-tight text-slate-950 sm:mb-12 sm:text-3xl">Temukan pekerjaan yang tepat</h2>
             <div class="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-12">
                 @php
                     $browseColumns = [
@@ -111,7 +111,7 @@
                     ];
                 @endphp
                 @foreach ($browseColumns as $column)
-                    <div>
+                    <div data-reveal="pop" data-reveal-delay="{{ $loop->index * 120 }}">
                         <h3 class="mb-6 border-b border-slate-200 pb-2 text-sm font-semibold uppercase tracking-widest text-slate-500">{{ $column['title'] }}</h3>
                         <ul class="space-y-3 text-slate-800">
                             @forelse ($column['items'] as $item)
@@ -131,29 +131,29 @@
         </div>
     </section>
 
-    {{-- Stats: gradasi tipis, angka biru, data asli --}}
+    {{-- Statistik singkat dengan data asli dari database --}}
     <section class="border-t border-slate-200 bg-gradient-to-br from-blue-50/50 via-white to-violet-50/40 py-14 sm:py-16">
         <div class="mx-auto grid max-w-7xl grid-cols-1 gap-8 divide-y divide-slate-200 px-4 text-center sm:px-6 md:grid-cols-3 md:divide-x md:divide-y-0 lg:px-8">
-            <div class="py-4">
+            <div data-reveal="pop" class="py-4">
                 <div class="text-4xl font-extrabold text-blue-600 sm:text-5xl">{{ number_format($stats['jobs']) }}+</div>
                 <p class="mt-2 text-sm font-medium text-slate-500">Active jobs</p>
             </div>
-            <div class="py-4">
+            <div data-reveal="pop" data-reveal-delay="120" class="py-4">
                 <div class="text-4xl font-extrabold text-blue-600 sm:text-5xl">{{ number_format($stats['companies']) }}</div>
                 <p class="mt-2 text-sm font-medium text-slate-500">Companies</p>
             </div>
-            <div class="py-4">
+            <div data-reveal="pop" data-reveal-delay="240" class="py-4">
                 <div class="text-4xl font-extrabold text-blue-600 sm:text-5xl">{{ number_format($stats['seekers']) }}</div>
                 <p class="mt-2 text-sm font-medium text-slate-500">Simple profiles</p>
             </div>
         </div>
     </section>
 
-    {{-- Company logos strip (placeholder) --}}
+    {{-- Strip logo perusahaan sebagai placeholder tampilan --}}
     <section class="bg-gradient-to-b from-slate-50 via-white to-slate-50 px-4 py-14 sm:py-20">
         <div class="mx-auto max-w-7xl text-center">
-            <h2 class="mx-auto mb-8 max-w-xs text-lg font-bold leading-snug text-slate-500 sm:mb-10 sm:max-w-none sm:text-xl">Perusahaan yang sudah bergabung</h2>
-            <div class="grid grid-cols-2 items-center gap-x-4 gap-y-5 sm:grid-cols-3 md:grid-cols-4 md:gap-8 lg:grid-cols-6">
+            <h2 data-reveal class="mx-auto mb-8 max-w-xs text-lg font-bold leading-snug text-slate-500 sm:mb-10 sm:max-w-none sm:text-xl">Perusahaan yang sudah bergabung</h2>
+            <div data-reveal class="grid grid-cols-2 items-center gap-x-4 gap-y-5 sm:grid-cols-3 md:grid-cols-4 md:gap-8 lg:grid-cols-6">
                 @foreach ([
                     ['rocket_launch', 'Acme'], ['code_blocks', 'DevCo'], ['payments', 'FinStart'],
                     ['shopping_bag', 'ShopAI'], ['health_and_safety', 'MedTech'], ['eco', 'GreenEnergy'],
@@ -169,7 +169,7 @@
         </div>
     </section>
 
-    {{-- Dual value prop (bento) --}}
+    {{-- Dua highlight nilai utama dalam layout bento --}}
     <section class="border-t border-slate-200 bg-slate-50 px-4 py-14 sm:py-20">
         <div class="mx-auto grid max-w-7xl grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12">
             @php
@@ -195,7 +195,7 @@
                 ];
             @endphp
             @foreach ($bento as $card)
-                <div class="flex h-full flex-col rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+                <div data-reveal="pop" data-reveal-delay="{{ $loop->index * 120 }}" class="flex h-full flex-col rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
                     <div class="mb-8 border-b border-slate-200 pb-6">
                         <span class="mb-4 inline-block rounded-full {{ $card['accent'] ? 'bg-slate-100 text-slate-700' : 'bg-blue-50 text-blue-700' }} px-3 py-1 text-sm font-semibold">{{ $card['eyebrow'] }}</span>
                         <h2 class="text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">{{ $card['title'] }}</h2>
@@ -216,10 +216,10 @@
         </div>
     </section>
 
-    {{-- Featured jobs (data asli) --}}
+    {{-- Lowongan unggulan dari data asli --}}
     <section class="bg-white py-14 sm:py-20">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div data-reveal class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                 <div>
                     <p class="text-sm font-bold uppercase tracking-widest text-blue-600">Featured</p>
                     <h2 class="mt-3 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">Lowongan pilihan</h2>
@@ -232,20 +232,22 @@
 
             <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 @foreach ($latestJobs->take(6) as $job)
-                    @include('partials.job-card', ['job' => $job])
+                    <div data-reveal="pop" data-reveal-delay="{{ ($loop->index % 3) * 100 }}">
+                        @include('partials.job-card', ['job' => $job])
+                    </div>
                 @endforeach
             </div>
         </div>
     </section>
 
-    {{-- Bottom CTA --}}
+    {{-- CTA bawah untuk mengajak user mulai mencari lowongan --}}
     <section class="bg-slate-900 px-4 py-16 text-center text-white sm:py-20">
         <div class="mx-auto max-w-2xl">
-            <h2 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">Siap Memulai?</h2>
-            <p class="mx-auto mt-4 max-w-xl text-sm leading-6 text-slate-300 sm:text-lg sm:leading-7">
+            <h2 data-reveal="pop" class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">Siap Memulai?</h2>
+            <p data-reveal="pop" data-reveal-delay="100" class="mx-auto mt-4 max-w-xl text-sm leading-6 text-slate-300 sm:text-lg sm:leading-7">
                 Bergabunglah dengan talenta dan perusahaan lainnya di YourJob hari ini.
             </p>
-            <div class="mt-9 flex flex-col justify-center gap-3 sm:mt-10 sm:flex-row sm:gap-4">
+            <div data-reveal="pop" data-reveal-delay="200" class="mt-9 flex flex-col justify-center gap-3 sm:mt-10 sm:flex-row sm:gap-4">
                 <a href="{{ route('jobs.index') }}" class="inline-flex min-h-12 items-center justify-center rounded-xl bg-blue-600 px-8 py-3.5 text-sm font-bold text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-700 sm:py-4">
                     Cari Pekerjaan Sekarang
                 </a>

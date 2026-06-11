@@ -47,7 +47,7 @@
 }
 
 @layer components {
-    /* Surfaces */
+    /* Permukaan UI */
     .card {
         @apply rounded-3xl bg-white shadow-sm ring-1 ring-slate-200/75;
     }
@@ -58,7 +58,7 @@
         @apply border-b border-slate-200/80 bg-white/90 backdrop-blur;
     }
 
-    /* Buttons — solid, calm, corporate */
+    /* Tombol utama: solid, tenang, dan profesional */
     .btn {
         @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600/30 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
     }
@@ -81,7 +81,7 @@
         @apply rounded-full px-3 py-1.5 text-xs;
     }
 
-    /* Badges / chips */
+    /* Badge dan chip kecil */
     .chip {
         @apply inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-700;
     }
@@ -89,12 +89,12 @@
         @apply chip bg-blue-50 text-blue-700;
     }
 
-    /* Form fields */
+    /* Field form */
     .field {
         @apply w-full rounded-2xl border-slate-200 bg-slate-50 text-slate-900 placeholder-slate-400 shadow-sm transition focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20;
     }
 
-    /* Eyebrow / section label */
+    /* Label kecil di atas judul section */
     .eyebrow {
         @apply inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-blue-600;
     }
@@ -137,7 +137,7 @@
         color: transparent;
     }
 
-    /* Modern tables */
+    /* Tabel modern */
     .table-modern {
         @apply w-full text-sm;
     }
@@ -159,7 +159,7 @@
 }
 
 @layer utilities {
-    /* Backward-compatible no-op aliases (kept so older markup stays safe) */
+    /* Alias lama tetap disediakan agar markup lama tidak rusak. */
     .shadow-glow {
         box-shadow: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
     }
@@ -193,5 +193,46 @@
         background: rgba(255, 255, 255, 0.7);
         backdrop-filter: blur(12px);
         border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    /* Scroll reveal: elemen mulai tersembunyi, lalu muncul saat masuk viewport.
+       Hiding hanya aktif jika <html> punya class .js-reveal (ditambahkan oleh
+       script inline saat JS jalan). Tanpa JS, konten tetap tampil normal. */
+    .js-reveal [data-reveal] {
+        opacity: 0;
+        transform: translateY(28px);
+        transition:
+            opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+            transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        transition-delay: var(--reveal-delay, 0ms);
+        will-change: opacity, transform;
+    }
+    /* Variasi arah munculnya animasi */
+    .js-reveal [data-reveal="left"]  { transform: translateX(-36px); }
+    .js-reveal [data-reveal="right"] { transform: translateX(36px); }
+    .js-reveal [data-reveal="zoom"]  { transform: scale(0.92); }
+    .js-reveal [data-reveal="fade"]  { transform: none; }
+
+    /* Efek pop: mengecil + sedikit turun, lalu memantul ke ukuran normal.
+       Pakai easing dengan overshoot supaya terasa "nyembul". */
+    .js-reveal [data-reveal="pop"] {
+        opacity: 0;
+        transform: scale(0.8) translateY(20px);
+        transition:
+            opacity 0.45s ease,
+            transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .js-reveal [data-reveal].is-visible {
+        opacity: 1;
+        transform: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .js-reveal [data-reveal] {
+            opacity: 1 !important;
+            transform: none !important;
+            transition: none !important;
+        }
     }
 }

@@ -77,3 +77,54 @@ Alpine.start();
         })
         .catch(() => {});
 })();
+
+// Scroll reveal: tambahkan class .is-visible saat elemen [data-reveal] masuk
+// ke viewport, sehingga teks/kartu muncul dengan animasi halus saat di-scroll.
+(() => {
+    const root = document.documentElement;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const showAll = () => {
+        document.querySelectorAll('[data-reveal]').forEach((el) => el.classList.add('is-visible'));
+    };
+
+    const reveal = () => {
+        // Aktifkan mode hiding hanya sekarang (saat JS jalan). Jika observer
+        // gagal, kita tetap punya fallback yang menampilkan semuanya.
+        root.classList.add('js-reveal');
+
+        const targets = document.querySelectorAll('[data-reveal]:not(.is-visible)');
+        if (!targets.length) return;
+
+        if (reduceMotion || !('IntersectionObserver' in window)) {
+            showAll();
+            return;
+        }
+
+        const observer = new IntersectionObserver(
+            (entries, obs) => {
+                entries.forEach((entry) => {
+                    if (!entry.isIntersecting) return;
+                    const el = entry.target;
+                    const delay = parseInt(el.dataset.revealDelay || '0', 10);
+                    el.style.setProperty('--reveal-delay', `${delay}ms`);
+                    el.classList.add('is-visible');
+                    obs.unobserve(el);
+                });
+            },
+            { threshold: 0.1, rootMargin: '0px 0px -5% 0px' }
+        );
+
+        targets.forEach((el) => observer.observe(el));
+
+        // Safety net: apa pun yang terjadi, pastikan tidak ada teks yang
+        // tersangkut tersembunyi setelah 2.5 detik.
+        window.setTimeout(showAll, 2500);
+    };
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', reveal);
+    } else {
+        reveal();
+    }
+})();
