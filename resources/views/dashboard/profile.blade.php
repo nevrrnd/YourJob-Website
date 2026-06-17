@@ -60,7 +60,7 @@
                 </div>
                 <div>
                     <label class="mb-1.5 block text-sm font-bold text-[#434656]">Foto Profil</label>
-                    <input type="file" name="avatar" accept="image/*" class="w-full text-sm text-[#434656] file:mr-3 file:rounded-lg file:border-0 file:bg-[#dde1ff] file:px-3 file:py-2 file:font-bold file:text-[#003ec7]">
+                    <x-avatar-cropper name="avatar" :current="$profile->avatar ? asset('storage/' . $profile->avatar) : null" shape="square" />
                 </div>
             </div>
             <button class="btn-primary">Simpan Profil</button>
@@ -89,10 +89,7 @@
             </div>
             <div>
                 <label class="mb-1.5 block text-sm font-bold text-[#434656]">Logo</label>
-                <input type="file" name="logo" accept="image/*" class="w-full text-sm text-[#434656] file:mr-3 file:rounded-lg file:border-0 file:bg-[#dde1ff] file:px-3 file:py-2 file:font-bold file:text-[#003ec7]">
-                @if ($profile->logo)
-                    <img src="{{ asset('storage/' . $profile->logo) }}" class="mt-3 h-16 w-16 rounded-xl object-cover ring-1 ring-[#e5e7eb]">
-                @endif
+                <x-avatar-cropper name="logo" :current="$profile->logo ? asset('storage/' . $profile->logo) : null" shape="square" />
             </div>
             <button class="btn-primary">Simpan Profil</button>
         </form>
