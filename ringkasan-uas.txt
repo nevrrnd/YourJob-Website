@@ -1,0 +1,89 @@
+RINGKASAN PROJECT UAS
+
+Judul Project
+YourJob: Website Lowongan Kerja Berbasis Laravel dan MySQL
+
+Deskripsi Singkat
+YourJob adalah aplikasi web portal lowongan kerja yang menghubungkan pencari kerja dengan perusahaan. Aplikasi ini memiliki tiga role utama, yaitu admin, employer, dan seeker.
+
+Tujuan Sistem
+Sistem ini dibuat untuk mempermudah perusahaan dalam memposting lowongan kerja, mempermudah pencari kerja dalam mencari dan melamar pekerjaan, serta membantu admin dalam mengelola data pengguna, perusahaan, kategori, lowongan, dan pengaturan situs.
+
+Role Pengguna
+1. Admin
+   - Mengelola data user.
+   - Mengelola kategori lowongan.
+   - Mengelola lowongan kerja.
+   - Memverifikasi perusahaan.
+   - Mengatur informasi situs seperti nama situs, logo, footer, dan maintenance mode.
+
+2. Employer
+   - Melengkapi profil perusahaan.
+   - Membuat, mengedit, dan menghapus lowongan kerja.
+   - Melihat daftar pelamar.
+   - Mengubah status lamaran.
+
+3. Seeker
+   - Mencari lowongan kerja.
+   - Menyimpan lowongan favorit.
+   - Melamar pekerjaan dengan upload CV PDF.
+   - Melihat status lamaran di dashboard.
+
+Database
+Sistem menggunakan database MySQL.
+
+Tabel utama:
+- users
+- categories
+- company_profiles
+- seeker_profiles
+- jobs
+- applications
+- saved_jobs
+- settings
+- sessions
+- password_reset_tokens
+
+Relasi Database
+- User memiliki role admin, employer, atau seeker.
+- Employer memiliki satu company_profile.
+- Seeker memiliki satu seeker_profile.
+- Employer dapat membuat banyak jobs.
+- Job memiliki satu category.
+- Seeker dapat mengirim banyak applications.
+- Job dapat memiliki banyak applications.
+- Seeker dapat menyimpan banyak job melalui tabel saved_jobs.
+
+Fitur Utama
+- Login dan register user.
+- Login dengan Google.
+- Dashboard berbeda sesuai role.
+- CRUD kategori oleh admin.
+- Verifikasi perusahaan oleh admin.
+- Posting, edit, dan hapus lowongan oleh employer.
+- Pencarian dan filter lowongan.
+- Lamar pekerjaan dengan upload CV PDF.
+- Bookmark atau simpan lowongan.
+- Update status lamaran oleh employer.
+- Pengaturan situs oleh admin.
+
+Teknologi Yang Digunakan
+- Laravel
+- Blade
+- MySQL
+- Tailwind CSS
+- Alpine.js
+- GitHub
+- Railway
+
+Alur Sistem
+1. User mendaftar sebagai seeker atau employer.
+2. Employer melengkapi profil perusahaan.
+3. Admin memverifikasi perusahaan.
+4. Employer membuat lowongan kerja.
+5. Seeker mencari lowongan dan mengirim lamaran.
+6. Employer melihat pelamar dan mengubah status lamaran.
+7. Seeker melihat status lamaran melalui dashboard.
+
+Kesimpulan
+YourJob sudah menerapkan konsep manajemen database seperti CRUD, relasi antar tabel, autentikasi, role-based access, dan pengelolaan data transaksi lamaran kerja. Aplikasi juga sudah berhasil dideploy secara online menggunakan Railway.

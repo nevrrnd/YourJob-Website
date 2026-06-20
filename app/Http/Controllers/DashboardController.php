@@ -46,14 +46,32 @@ class DashboardController extends Controller
             ->get();
 
         $applicationQuery = Application::whereHas('job', fn ($q) => $q->where('employer_id', $employerId));
+        $recentApplications = (clone $applicationQuery)
+            ->with(['job', 'seeker'])
+            ->latest()
+            ->limit(6)
+            ->get();
+
+        $currentWeekApplications = (clone $applicationQuery)
+            ->where('created_at', '>=', now()->copy()->subDays(7))
+            ->count();
+        $previousWeekApplications = (clone $applicationQuery)
+            ->whereBetween('created_at', [now()->copy()->subDays(14), now()->copy()->subDays(7)])
+            ->count();
 
         $stats = [
             'active_jobs' => $jobs->where('status', 'active')->count(),
+            'jobs_this_week' => $jobs->where('created_at', '>=', now()->copy()->startOfWeek())->count(),
             'total_applicants' => (clone $applicationQuery)->count(),
+            'applicants_today' => (clone $applicationQuery)->whereDate('created_at', today())->count(),
             'interview' => (clone $applicationQuery)->where('status', 'interview')->count(),
             'accepted' => (clone $applicationQuery)->where('status', 'accepted')->count(),
         ];
 
-        return view('dashboard.employer', compact('jobs', 'stats'));
+        $applicationTrend = $previousWeekApplications > 0
+            ? round((($currentWeekApplications - $previousWeekApplications) / $previousWeekApplications) * 100)
+            : ($currentWeekApplications > 0 ? 100 : 0);
+
+        return view('dashboard.employer', compact('jobs', 'stats', 'recentApplications', 'applicationTrend'));
     }
 }

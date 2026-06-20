@@ -11,7 +11,7 @@
 
     body {
         @apply text-slate-900 antialiased;
-        background: #f8fafc;
+        background: #faf8ff;
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -49,13 +49,23 @@
 @layer components {
     /* Permukaan UI */
     .card {
-        @apply rounded-3xl bg-white shadow-sm ring-1 ring-slate-200/75;
+        background: rgba(255, 255, 255, 0.64);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        @apply rounded-3xl border border-white/40 shadow-lg shadow-blue-950/5 ring-1 ring-white/40;
     }
     .card-hover {
         @apply transition-all duration-300 hover:-translate-y-1.5 hover:shadow-lg;
     }
     .glass {
-        @apply border-b border-slate-200/80 bg-white/90 backdrop-blur;
+        @apply border-b border-white/30 bg-white/70 shadow-sm shadow-blue-950/5 backdrop-blur-md;
+    }
+    /* Panel kaca ala TalentFlow untuk search bar, kartu, dsb. */
+    .glass-panel {
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        @apply rounded-2xl border border-white/40 shadow-lg;
     }
 
     /* Tombol utama: solid, tenang, dan profesional */
@@ -63,16 +73,26 @@
         @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600/30 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
     }
     .btn-primary {
-        @apply btn bg-blue-600 text-white shadow-sm active:scale-[0.99];
+        @apply btn text-white shadow-md shadow-blue-600/25 active:scale-[0.99];
+        background-image: linear-gradient(to right, #4648d4, #8b5cf6);
     }
     .btn-primary:hover {
-        @apply bg-blue-700;
+        filter: brightness(1.05);
     }
     .btn-ghost {
-        @apply btn border border-slate-200 bg-white text-slate-700 shadow-sm hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700;
+        @apply btn border border-white/50 bg-white/70 text-slate-700 shadow-sm backdrop-blur hover:bg-white hover:text-blue-700;
     }
     .btn-soft {
-        @apply btn bg-blue-50 text-blue-700 hover:bg-blue-100;
+        @apply btn bg-blue-50/80 text-blue-700 hover:bg-blue-100;
+    }
+    /* Tombol gradient indigo->violet ala TalentFlow */
+    .btn-gradient {
+        @apply btn text-white shadow-md active:scale-[0.99];
+        background-image: linear-gradient(to right, #4648d4, #8b5cf6);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 8px 20px -6px rgba(70, 72, 212, 0.4);
+    }
+    .btn-gradient:hover {
+        filter: brightness(1.05);
     }
     .btn-danger {
         @apply btn text-white bg-red-600 hover:bg-red-700 shadow-xs;
@@ -91,7 +111,7 @@
 
     /* Field form */
     .field {
-        @apply w-full rounded-2xl border-slate-200 bg-slate-50 text-slate-900 placeholder-slate-400 shadow-sm transition focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20;
+        @apply w-full rounded-2xl border-white/60 bg-white/65 text-slate-900 placeholder-slate-400 shadow-sm backdrop-blur transition focus:border-blue-500/50 focus:bg-white focus:ring-2 focus:ring-blue-600/20;
     }
 
     /* Label kecil di atas judul section */
@@ -100,11 +120,11 @@
     }
 
     .premium-panel {
-        @apply rounded-3xl bg-white shadow-sm ring-1 ring-slate-200/75;
+        @apply card;
     }
 
     .section-panel {
-        @apply rounded-3xl bg-white shadow-sm ring-1 ring-slate-200/75;
+        @apply card;
     }
 
     .section-title {
@@ -116,14 +136,14 @@
     }
 
     .premium-heading {
-        background: linear-gradient(135deg, #0f172a 0%, #2563eb 100%);
+        background: linear-gradient(135deg, #131b2e 0%, #4648d4 100%);
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
     }
 
     .text-gradient {
-        background: linear-gradient(135deg, #003ec7 0%, #6b5487 100%);
+        background: linear-gradient(to right, #4648d4 0%, #8b5cf6 100%);
         -webkit-background-clip: text;
         background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -131,7 +151,7 @@
     }
 
     .text-gradient-blue {
-        background: linear-gradient(135deg, #003ec7 0%, #6b5487 100%);
+        background: linear-gradient(to right, #4648d4 0%, #8b5cf6 100%);
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
@@ -142,16 +162,16 @@
         @apply w-full text-sm;
     }
     .table-modern thead {
-        @apply border-b border-slate-200 bg-slate-50 text-left text-slate-500;
+        @apply border-b border-slate-200/70 bg-white/30 text-left text-slate-500;
     }
     .table-modern thead th {
         @apply px-5 py-3 font-semibold text-xs uppercase tracking-wide;
     }
     .table-modern tbody {
-        @apply divide-y divide-slate-100;
+        @apply divide-y divide-slate-200/50;
     }
     .table-modern tbody tr {
-        @apply transition-colors hover:bg-blue-50/40;
+        @apply transition-colors hover:bg-white/50;
     }
     .table-modern tbody td {
         @apply px-5 py-3.5;
@@ -164,10 +184,19 @@
         box-shadow: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
     }
     .bg-brand-gradient {
-        background-image: linear-gradient(135deg, #003ec7 0%, #6b5487 100%);
+        background-image: linear-gradient(135deg, #4648d4 0%, #8b5cf6 100%);
     }
     [x-cloak] {
         display: none !important;
+    }
+
+    /* Sembunyikan scrollbar untuk carousel/scroll horizontal */
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
     }
 
     .material-symbols-outlined {
@@ -190,9 +219,17 @@
     }
 
     .glass-card {
-        background: rgba(255, 255, 255, 0.7);
-        backdrop-filter: blur(12px);
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
         border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    }
+    .glass-card:hover {
+        transform: translateY(-2px);
+        background: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 10px 15px -3px rgba(70, 72, 212, 0.1), 0 4px 6px -2px rgba(70, 72, 212, 0.05);
     }
 
     /* Scroll reveal: elemen mulai tersembunyi, lalu muncul saat masuk viewport.

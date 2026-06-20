@@ -9,16 +9,27 @@
     <link rel="apple-touch-icon" href="{{ site_logo_url() }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" media="print" onload="this.media='all'">
     <noscript>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap">
     </noscript>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="min-h-screen flex flex-col bg-slate-50 font-sans text-slate-900 antialiased" x-data="{ authModal: null }">
-    <header x-data="{ open: false }" class="sticky top-0 z-50 border-b border-slate-200/80 bg-white/90 backdrop-blur">
+@php
+    $isLandingPage = request()->routeIs('home');
+@endphp
+<body class="min-h-screen flex flex-col font-sans text-slate-900 antialiased {{ $isLandingPage ? 'bg-slate-50' : 'bg-[#faf8ff]' }}" x-data="{ authModal: null }">
+    @unless ($isLandingPage)
+        <div aria-hidden="true" class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+            <div class="absolute left-0 top-0 h-96 w-96 rounded-full bg-blue-200/50 blur-3xl"></div>
+            <div class="absolute right-0 top-0 h-[30rem] w-[30rem] rounded-full bg-violet-accent/20 blur-3xl"></div>
+            <div class="absolute bottom-0 left-1/3 h-80 w-80 rounded-full bg-emerald-100/60 blur-3xl"></div>
+        </div>
+    @endunless
+
+    <header x-data="{ open: false }" class="glass sticky top-0 z-50">
         <nav class="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
             <a href="{{ route('home') }}" class="flex items-center gap-2 text-xl font-extrabold tracking-tight text-slate-950">
                 <img src="{{ site_logo_url() }}" alt="YourJob" width="32" height="32" fetchpriority="high" class="h-8 w-8 object-contain">
@@ -27,6 +38,8 @@
             <div class="hidden items-center gap-5 text-sm sm:flex">
                 <a class="font-semibold {{ request()->routeIs('home') ? 'text-blue-600' : 'text-slate-600 hover:text-blue-600' }}" href="{{ route('home') }}">Home</a>
                 <a class="font-semibold {{ request()->routeIs('jobs.*') ? 'text-blue-600' : 'text-slate-600 hover:text-blue-600' }}" href="{{ route('jobs.index') }}">Jobs</a>
+                <a class="font-semibold {{ request()->routeIs('seekers.*') ? 'text-blue-600' : 'text-slate-600 hover:text-blue-600' }}" href="{{ route('seekers.index') }}">Kandidat</a>
+                <a class="font-semibold {{ request()->routeIs('employers.*') ? 'text-blue-600' : 'text-slate-600 hover:text-blue-600' }}" href="{{ route('employers.index') }}">Perusahaan</a>
                 @auth
                     <a class="font-semibold text-slate-600 hover:text-blue-600" href="{{ route('dashboard') }}">Profile</a>
                 @else
@@ -60,7 +73,7 @@
                         </x-dropdown>
                     @else
                         <button type="button" @click="authModal = 'login'" class="text-sm font-semibold text-slate-600 transition hover:text-blue-600">Log In</button>
-                        <button type="button" @click="authModal = 'register'" class="rounded-full bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700">Sign Up</button>
+                        <button type="button" @click="authModal = 'register'" class="rounded-full bg-gradient-to-r from-blue-600 to-violet-accent px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-blue-600/25 transition hover:brightness-105">Sign Up</button>
                     @endauth
             </div>
 
@@ -71,6 +84,8 @@
         <div x-show="open" x-cloak class="border-t border-slate-200 bg-white px-4 py-4 sm:hidden">
             <a href="{{ route('home') }}" class="block rounded-md px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">Home</a>
             <a href="{{ route('jobs.index') }}" class="block rounded-md px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">Jobs</a>
+            <a href="{{ route('seekers.index') }}" class="block rounded-md px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">Kandidat</a>
+            <a href="{{ route('employers.index') }}" class="block rounded-md px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">Perusahaan</a>
             @auth
                 <a href="{{ route('dashboard') }}" class="block rounded-md px-3 py-2 text-sm font-semibold text-[#434656] hover:bg-[#f7f8f9]">Dashboard</a>
                 <form method="POST" action="{{ route('logout') }}">@csrf
@@ -192,12 +207,12 @@
         </header>
     @endisset
 
-    <main class="flex-1">
+    <main class="flex-1 {{ $isLandingPage ? '' : 'relative z-10' }}">
         {{ $slot ?? '' }}
         @yield('content')
     </main>
 
-    <footer class="bg-slate-950 py-10 text-white">
+    <footer class="{{ $isLandingPage ? 'bg-slate-950' : 'border-t border-white/40 bg-white/60 backdrop-blur-xl' }} py-10 {{ $isLandingPage ? 'text-white' : 'text-slate-900' }}">
         @php
             $contactEmail = setting('contact_email');
             $contactPhone = setting('contact_phone');
@@ -210,15 +225,15 @@
         <div class="mx-auto flex max-w-7xl flex-col gap-8 px-4 sm:px-6 lg:px-8">
             <div class="grid gap-8 md:grid-cols-[1.5fr_0.8fr_0.8fr_0.8fr]">
                 <div class="max-w-md">
-                    <a class="flex items-center gap-2 text-2xl font-black text-white" href="{{ route('home') }}">
-                        <img src="{{ site_logo_url() }}" alt="YourJob" width="36" height="36" loading="lazy" class="h-9 w-9 rounded-full bg-white object-contain p-1">
+                    <a class="flex items-center gap-2 text-2xl font-black {{ $isLandingPage ? 'text-white' : 'text-blue-700' }}" href="{{ route('home') }}">
+                        <img src="{{ site_logo_url() }}" alt="YourJob" width="36" height="36" loading="lazy" class="h-9 w-9 rounded-full {{ $isLandingPage ? 'bg-white p-1' : 'bg-white/70 p-1 shadow-sm' }} object-contain">
                         YourJob
                     </a>
-                    <p class="mt-3 text-sm leading-6 text-slate-300">
+                    <p class="mt-3 text-sm leading-6 {{ $isLandingPage ? 'text-slate-300' : 'text-slate-600' }}">
                         {{ setting('footer_text', 'Website lowongan kerja berbasis Laravel dan MySQL untuk menghubungkan pencari kerja dengan perusahaan.') }}
                     </p>
                     @if (array_filter($socials))
-                        <div class="mt-5 flex flex-wrap gap-3 text-sm font-semibold text-slate-300">
+                        <div class="mt-5 flex flex-wrap gap-3 text-sm font-semibold {{ $isLandingPage ? 'text-slate-300' : 'text-slate-600' }}">
                             @foreach ($socials as $label => $url)
                                 @if ($url)
                                     <a href="{{ $url }}" target="_blank" rel="noopener" class="transition hover:text-white">{{ $label }}</a>
@@ -229,10 +244,12 @@
                 </div>
 
                 <div>
-                    <h3 class="text-sm font-bold text-white">Platform</h3>
-                    <div class="mt-4 flex flex-col gap-3 text-sm font-medium text-slate-300">
+                    <h3 class="text-sm font-bold {{ $isLandingPage ? 'text-white' : 'text-slate-950' }}">Platform</h3>
+                    <div class="mt-4 flex flex-col gap-3 text-sm font-medium {{ $isLandingPage ? 'text-slate-300' : 'text-slate-600' }}">
                         <a href="{{ route('home') }}" class="transition hover:text-white">Beranda</a>
                         <a href="{{ route('jobs.index') }}" class="transition hover:text-white">Cari Lowongan</a>
+                        <a href="{{ route('seekers.index') }}" class="transition hover:text-white">Cari Kandidat</a>
+                        <a href="{{ route('employers.index') }}" class="transition hover:text-white">Cari Perusahaan</a>
                         @auth
                             <a href="{{ route('dashboard') }}" class="transition hover:text-white">Dashboard</a>
                         @else
@@ -242,21 +259,21 @@
                 </div>
 
                 <div>
-                    <h3 class="text-sm font-bold text-white">Perusahaan</h3>
-                    <div class="mt-4 flex flex-col gap-3 text-sm font-medium text-slate-300">
+                    <h3 class="text-sm font-bold {{ $isLandingPage ? 'text-white' : 'text-slate-950' }}">Perusahaan</h3>
+                    <div class="mt-4 flex flex-col gap-3 text-sm font-medium {{ $isLandingPage ? 'text-slate-300' : 'text-slate-600' }}">
                         @guest
                             <button type="button" @click="authModal = 'register'" class="text-left transition hover:text-white">Daftar Akun</button>
                         @else
                             <a href="{{ route('dashboard') }}" class="transition hover:text-white">Kelola Akun</a>
                         @endguest
-                        <a href="{{ route('jobs.index') }}" class="transition hover:text-white">Lihat Kandidat</a>
+                        <a href="{{ route('seekers.index') }}" class="transition hover:text-white">Lihat Kandidat</a>
                         <a href="{{ route('jobs.index') }}" class="transition hover:text-white">Pasang Lowongan</a>
                     </div>
                 </div>
 
                 <div>
-                    <h3 class="text-sm font-bold text-white">Resource</h3>
-                    <div class="mt-4 flex flex-col gap-3 text-sm font-medium text-slate-300">
+                    <h3 class="text-sm font-bold {{ $isLandingPage ? 'text-white' : 'text-slate-950' }}">Resource</h3>
+                    <div class="mt-4 flex flex-col gap-3 text-sm font-medium {{ $isLandingPage ? 'text-slate-300' : 'text-slate-600' }}">
                         <a href="{{ route('jobs.index') }}" class="transition hover:text-white">Lowongan Terbaru</a>
                     @guest
                             <button type="button" @click="authModal = 'register'" class="text-left transition hover:text-white">Mulai Gratis</button>
@@ -268,7 +285,7 @@
                 </div>
             </div>
 
-            <div class="flex flex-col gap-3 border-t border-white/10 pt-6 text-xs font-medium text-slate-400 sm:flex-row sm:items-center sm:justify-between">
+            <div class="flex flex-col gap-3 border-t {{ $isLandingPage ? 'border-white/10 text-slate-400' : 'border-slate-200/70 text-slate-500' }} pt-6 text-xs font-medium sm:flex-row sm:items-center sm:justify-between">
                 <p>&copy; {{ date('Y') }} YourJob. All rights reserved.</p>
                 @if ($contactEmail || $contactPhone)
                     <div class="flex flex-wrap gap-x-4 gap-y-2">

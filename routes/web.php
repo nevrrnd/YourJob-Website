@@ -3,10 +3,12 @@
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmployerController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SavedJobController;
+use App\Http\Controllers\SeekerController;
 use App\Http\Controllers\UserPreferenceController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +16,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/lowongan', [HomeController::class, 'jobs'])->name('jobs.index');
 Route::get('/lowongan/{job:slug}', [HomeController::class, 'show'])->name('jobs.show');
+Route::get('/seekers', [SeekerController::class, 'index'])->name('seekers.index');
+Route::get('/seekers/{username}', [SeekerController::class, 'show'])->name('seekers.show');
+Route::get('/employers', [EmployerController::class, 'index'])->name('employers.index');
+Route::get('/employers/{username}', [EmployerController::class, 'show'])->name('employers.show');
 
 // ---- Dashboard redirect by role ----
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');

@@ -12,22 +12,40 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Inter', ...defaultTheme.fontFamily.sans],
+                sans: ['Plus Jakarta Sans', ...defaultTheme.fontFamily.sans],
             },
             colors: {
-                // Corporate blue — calm, trustworthy (Stripe/Notion vibe)
+                // TalentFlow indigo accent. `blue` is overridden below so all
+                // existing `blue-*` utilities across the app shift to indigo.
+                'violet-accent': '#8b5cf6',
                 brand: {
-                    50: '#eff6ff',
-                    100: '#dbeafe',
-                    200: '#bfdbfe',
-                    300: '#93c5fd',
-                    400: '#60a5fa',
-                    500: '#3b82f6',
-                    600: '#2563eb',
-                    700: '#1d4ed8',
-                    800: '#1e40af',
-                    900: '#1e3a8a',
-                    950: '#172554',
+                    50: '#eef1ff',
+                    100: '#e1e0ff',
+                    200: '#c0c1ff',
+                    300: '#a5a6ff',
+                    400: '#8587f0',
+                    500: '#6063ee',
+                    600: '#4648d4',
+                    700: '#2f2ebe',
+                    800: '#2624a0',
+                    900: '#1e1d80',
+                    950: '#14134d',
+                },
+                // Re-skin Tailwind's blue ramp to indigo so the whole site
+                // (dashboards, jobs, auth) picks up the new accent with no
+                // markup changes. Tuned around TalentFlow primary #4648d4.
+                blue: {
+                    50: '#eef1ff',
+                    100: '#e1e0ff',
+                    200: '#c0c1ff',
+                    300: '#a5a6ff',
+                    400: '#8587f0',
+                    500: '#6063ee',
+                    600: '#4648d4',
+                    700: '#2f2ebe',
+                    800: '#2624a0',
+                    900: '#1e1d80',
+                    950: '#14134d',
                 },
                 // Neutral slate for text & surfaces
                 ink: {
@@ -57,10 +75,10 @@ export default {
                 soft: '0 1px 3px 0 rgba(15, 23, 42, 0.06), 0 1px 2px -1px rgba(15, 23, 42, 0.04)',
                 card: '0 4px 12px -2px rgba(15, 23, 42, 0.06), 0 2px 6px -2px rgba(15, 23, 42, 0.04)',
                 lift: '0 12px 28px -8px rgba(15, 23, 42, 0.12), 0 4px 10px -4px rgba(15, 23, 42, 0.06)',
-                ring: '0 0 0 1px rgba(37, 99, 235, 0.12)',
+                ring: '0 0 0 1px rgba(70, 72, 212, 0.12)',
             },
             backgroundImage: {
-                'brand-gradient': 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)',
+                'brand-gradient': 'linear-gradient(135deg, #4648d4 0%, #8b5cf6 100%)',
                 'hero-fade': 'linear-gradient(180deg, #f8fafc 0%, #ffffff 100%)',
                 'grid-faint': 'linear-gradient(to right, rgba(15,23,42,0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(15,23,42,0.04) 1px, transparent 1px)',
             },

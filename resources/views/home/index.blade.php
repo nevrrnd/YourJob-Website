@@ -2,20 +2,18 @@
 
 @section('content')
 @php
-    // Preset posisi dan kedalaman untuk chip kategori yang melayang.
-    // Nilai 'show' diatur per breakpoint: di HP cukup dua chip dulu,
-    // lalu jumlahnya bertambah saat layar makin lebar.
+    // Preset posisi & kedalaman untuk chip kategori yang melayang (parallax).
     $chipStyles = [
-        ['pos' => 'top-[7%] left-[6%]',    'depth' => '',                        'speed' => 1.5, 'show' => 'flex',           'accent' => false],
-        ['pos' => 'top-[7%] right-[6%]',   'depth' => '',                        'speed' => 1.2, 'show' => 'flex',           'accent' => true],
-        ['pos' => 'top-[21%] left-[13%]',  'depth' => 'opacity-90',              'speed' => 2.0, 'show' => 'hidden sm:flex', 'accent' => false],
-        ['pos' => 'top-[27%] right-[15%]', 'depth' => 'opacity-90',              'speed' => 1.8, 'show' => 'hidden sm:flex', 'accent' => false],
-        ['pos' => 'top-[47%] left-[5%]',   'depth' => 'blur-[1px] opacity-70',   'speed' => 0.8, 'show' => 'hidden lg:flex', 'accent' => false],
-        ['pos' => 'top-[53%] right-[6%]',  'depth' => '',                        'speed' => 1.1, 'show' => 'hidden lg:flex', 'accent' => false],
-        ['pos' => 'top-[72%] left-[11%]',  'depth' => '',                        'speed' => 1.4, 'show' => 'hidden md:flex', 'accent' => false],
-        ['pos' => 'top-[78%] right-[13%]', 'depth' => 'opacity-80',              'speed' => 0.7, 'show' => 'hidden md:flex', 'accent' => false],
-        ['pos' => 'top-[88%] left-[30%]',  'depth' => 'blur-[1px] opacity-60',   'speed' => 0.6, 'show' => 'hidden lg:flex', 'accent' => false],
-        ['pos' => 'top-[16%] right-[30%]', 'depth' => 'blur-[0.5px] opacity-70', 'speed' => 0.9, 'show' => 'hidden xl:flex', 'accent' => false],
+        ['pos' => 'top-[10%] left-[6%]',   'depth' => '',                        'speed' => 1.5, 'show' => 'hidden md:flex', 'accent' => false],
+        ['pos' => 'top-[12%] right-[7%]',  'depth' => '',                        'speed' => 1.2, 'show' => 'hidden md:flex', 'accent' => true],
+        ['pos' => 'top-[30%] left-[12%]',  'depth' => 'opacity-90',              'speed' => 2.0, 'show' => 'hidden lg:flex', 'accent' => false],
+        ['pos' => 'top-[34%] right-[13%]', 'depth' => 'opacity-90',              'speed' => 1.8, 'show' => 'hidden lg:flex', 'accent' => false],
+        ['pos' => 'top-[55%] left-[5%]',   'depth' => 'blur-[1px] opacity-70',   'speed' => 0.8, 'show' => 'hidden xl:flex', 'accent' => false],
+        ['pos' => 'top-[58%] right-[6%]',  'depth' => '',                        'speed' => 1.1, 'show' => 'hidden xl:flex', 'accent' => false],
+        ['pos' => 'top-[74%] left-[14%]',  'depth' => '',                        'speed' => 1.4, 'show' => 'hidden lg:flex', 'accent' => false],
+        ['pos' => 'top-[78%] right-[15%]', 'depth' => 'opacity-80',              'speed' => 0.7, 'show' => 'hidden lg:flex', 'accent' => false],
+        ['pos' => 'top-[20%] right-[32%]', 'depth' => 'blur-[0.5px] opacity-70', 'speed' => 0.9, 'show' => 'hidden xl:flex', 'accent' => false],
+        ['pos' => 'top-[84%] left-[34%]',  'depth' => 'blur-[1px] opacity-60',   'speed' => 0.6, 'show' => 'hidden xl:flex', 'accent' => false],
     ];
     $chipIcons = ['code', 'security', 'brush', 'database', 'bar_chart', 'home_work', 'memory', 'smartphone', 'architecture', 'cloud'];
     $fallbackChips = collect([
@@ -36,230 +34,196 @@
 @endphp
 
 <div class="bg-slate-50">
-    <section class="parallax-wrapper relative flex min-h-[calc(100vh-4rem)] items-start overflow-hidden bg-gradient-to-b from-blue-50/60 via-white to-slate-50 px-4 pb-14 pt-10 sm:px-6 sm:py-16 md:items-center lg:px-8">
+    {{-- ============================= HERO ============================= --}}
+    <section class="parallax-wrapper relative flex min-h-[calc(100vh-4rem)] flex-col justify-center overflow-hidden bg-gradient-to-b from-blue-50/50 via-white to-slate-50 px-4 pb-20 pt-12 sm:px-6 lg:px-8">
+        {{-- Background lembut statis (tanpa animasi, seperti acuan) --}}
         <div aria-hidden="true" class="pointer-events-none absolute inset-0 overflow-hidden">
             <div class="absolute inset-0 bg-grid-faint [background-size:44px_44px] [mask-image:radial-gradient(ellipse_70%_60%_at_50%_0%,black,transparent)]"></div>
-            <div class="absolute -left-20 -top-10 h-80 w-80 rounded-full bg-blue-400/30 blur-3xl animate-blob sm:h-[28rem] sm:w-[28rem]"></div>
-            <div class="absolute right-0 top-16 h-80 w-80 rounded-full bg-violet-400/25 blur-3xl animate-blob-slow [animation-delay:-4s] sm:h-[26rem] sm:w-[26rem]"></div>
+            <div class="absolute -left-20 -top-10 h-80 w-80 rounded-full bg-blue-400/20 blur-3xl sm:h-[28rem] sm:w-[28rem]"></div>
+            <div class="absolute right-0 top-16 h-80 w-80 rounded-full bg-violet-accent/20 blur-3xl sm:h-[26rem] sm:w-[26rem]"></div>
         </div>
 
-        {{-- Chip kategori desktop: melayang, ada parallax, dan bisa diklik --}}
+        {{-- Floating chips kategori (parallax) --}}
         <div id="chip-container" class="pointer-events-none absolute inset-0 z-0 hidden md:block">
             @foreach ($heroChips as $i => $category)
                 @php $s = $chipStyles[$i]; @endphp
                 <a href="{{ $category['url'] }}"
                    data-speed="{{ $s['speed'] }}"
                    title="Lihat lowongan {{ $category['name'] }}"
-                   class="chip group pointer-events-auto absolute {{ $s['pos'] }} {{ $s['show'] }} items-center gap-2 rounded-full border px-5 py-2.5 shadow-sm {{ $s['depth'] }} hover:z-20 hover:scale-110 hover:opacity-100 hover:shadow-xl hover:blur-none active:scale-95 {{ $s['accent'] ? 'border-red-200 bg-red-50 hover:border-red-600 hover:bg-red-600 hover:shadow-red-600/30' : 'border-slate-200 bg-white hover:border-blue-600 hover:bg-blue-600 hover:shadow-blue-600/30' }}">
-                    <span class="material-symbols-outlined text-[20px] {{ $s['accent'] ? 'text-red-500' : 'text-blue-600' }} group-hover:text-white">{{ $chipIcons[$i] }}</span>
-                    <span class="whitespace-nowrap text-sm font-semibold {{ $s['accent'] ? 'text-red-700' : 'text-slate-600' }} group-hover:text-white">{{ $category['name'] }}</span>
+                   class="chip group pointer-events-auto absolute {{ $s['pos'] }} {{ $s['show'] }} items-center gap-2 rounded-full border px-5 py-2.5 shadow-sm {{ $s['depth'] }} hover:z-20 hover:scale-110 hover:opacity-100 hover:shadow-xl hover:blur-none active:scale-95 {{ $s['accent'] ? 'border-violet-200 bg-violet-50 hover:border-violet-accent hover:bg-violet-accent hover:shadow-violet-accent/30' : 'border-white/60 bg-white/80 backdrop-blur-sm hover:border-blue-600 hover:bg-blue-600 hover:shadow-blue-600/30' }}">
+                    <span class="material-symbols-outlined text-[20px] {{ $s['accent'] ? 'text-violet-accent' : 'text-blue-600' }} group-hover:text-white">{{ $chipIcons[$i] }}</span>
+                    <span class="whitespace-nowrap text-sm font-semibold {{ $s['accent'] ? 'text-violet-700' : 'text-slate-600' }} group-hover:text-white">{{ $category['name'] }}</span>
                 </a>
             @endforeach
         </div>
 
-        {{-- Konten hero utama, sengaja tanpa card supaya terasa lega --}}
-        <div class="pointer-events-none relative z-10 mx-auto w-full max-w-3xl space-y-6 text-center sm:space-y-8">
-            <div class="space-y-3 sm:space-y-4">
-                <h1 class="animate-fade-up text-balance text-[2rem] font-extrabold leading-[1.08] tracking-tight text-slate-950 [animation-delay:80ms] sm:text-5xl lg:text-6xl">
-                    Temukan karier berikutnya dengan <span class="text-blue-600">momentum</span> yang tepat.
-                </h1>
-                <p class="mx-auto max-w-xl animate-fade-up text-balance text-sm leading-6 text-slate-600 [animation-delay:160ms] sm:text-lg sm:leading-7">
-                    Jelajahi lowongan pilihan, simpan pekerjaan favorit, dan kirim lamaran dari satu tempat yang rapi.
-                </p>
+        {{-- Konten hero terpusat --}}
+        <div class="relative z-10 mx-auto flex w-full max-w-4xl flex-col items-center text-center">
+            {{-- Badge --}}
+            <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/70 px-4 py-1.5 shadow-sm backdrop-blur-sm animate-fade-up">
+                <span class="material-symbols-outlined text-[16px] text-blue-600" style="font-variation-settings: 'FILL' 1;">stars</span>
+                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">{{ number_format($stats['jobs']) }}+ lowongan tersedia</span>
             </div>
 
-            <form action="{{ route('jobs.index') }}" method="GET" class="pointer-events-auto grid animate-fade-up gap-2 rounded-2xl border border-slate-200 bg-white p-2 shadow-xl shadow-blue-200/40 [animation-delay:240ms] md:grid-cols-[1fr_1fr_auto]">
-                <div class="relative flex items-center rounded-xl bg-slate-50 px-3">
-                    <span class="material-symbols-outlined pointer-events-none text-[18px] text-slate-400 sm:text-[20px]">search</span>
-                    <input name="q" value="{{ request('q') }}" class="min-h-11 w-full border-none bg-transparent px-2 text-sm text-slate-900 outline-none placeholder:text-slate-400 focus:ring-0 sm:min-h-12" placeholder="Job title, company, keyword">
+            <h1 class="mb-6 max-w-4xl text-balance text-4xl font-extrabold leading-[1.08] tracking-tight text-slate-950 animate-fade-up [animation-delay:80ms] sm:text-5xl lg:text-6xl">
+                Temukan <span class="text-gradient">Pekerjaan Impianmu</span> Lebih Cepat
+            </h1>
+            <p class="mb-12 max-w-2xl text-balance text-base leading-7 text-slate-600 animate-fade-up [animation-delay:160ms] sm:text-lg">
+                Cara modern menghubungkan talenta terbaik dengan perusahaan paling inovatif. Langkah karier berikutmu hanya berjarak satu pencarian.
+            </p>
+
+            {{-- Search bar glassmorphism (pill) --}}
+            <form action="{{ route('jobs.index') }}" method="GET"
+                  class="glass-panel pointer-events-auto mb-16 flex w-full max-w-4xl flex-col gap-2 rounded-[2rem] p-2 shadow-xl shadow-blue-200/40 animate-fade-up [animation-delay:240ms] md:flex-row md:p-3">
+                <div class="flex flex-1 items-center rounded-full border border-transparent bg-white/50 px-4 py-3 transition-colors focus-within:border-blue-600/30 focus-within:bg-white md:py-0">
+                    <span class="material-symbols-outlined mr-3 text-[20px] text-slate-400">search</span>
+                    <input name="q" value="{{ request('q') }}" class="w-full border-none bg-transparent px-0 text-sm text-slate-900 outline-none placeholder:text-slate-400 focus:ring-0" placeholder="Job title, keywords, atau perusahaan">
                 </div>
-                <div class="relative flex items-center rounded-xl bg-slate-50 px-3">
-                    <span class="material-symbols-outlined pointer-events-none text-[18px] text-slate-400 sm:text-[20px]">location_on</span>
-                    <input name="city" value="{{ request('city') }}" class="min-h-11 w-full border-none bg-transparent px-2 text-sm text-slate-900 outline-none placeholder:text-slate-400 focus:ring-0 sm:min-h-12" placeholder="City or Remote">
+                <div class="mx-2 hidden h-8 w-px self-center bg-slate-300/40 md:block"></div>
+                <div class="flex flex-1 items-center rounded-full border border-transparent bg-white/50 px-4 py-3 transition-colors focus-within:border-blue-600/30 focus-within:bg-white md:py-0">
+                    <span class="material-symbols-outlined mr-3 text-[20px] text-slate-400">location_on</span>
+                    <input name="city" value="{{ request('city') }}" class="w-full border-none bg-transparent px-0 text-sm text-slate-900 outline-none placeholder:text-slate-400 focus:ring-0" placeholder="Kota, atau Remote">
                 </div>
-                <button class="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 text-sm font-bold text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-700 active:scale-[0.98] sm:min-h-12">
-                    <span class="material-symbols-outlined text-[20px]">search</span>
-                    Find Jobs
+                <button class="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-blue-600 to-violet-accent px-8 py-4 text-sm font-bold text-white shadow-lg shadow-blue-600/30 transition hover:brightness-105 active:scale-[0.98] md:py-0">
+                    Search Jobs
+                    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
                 </button>
             </form>
 
-            {{-- Chip kategori mobile: dibuat wrap ke tengah agar tetap rapi --}}
-            @if ($heroChips->isNotEmpty())
-                <div class="pointer-events-auto mx-auto grid w-full max-w-sm animate-fade-up grid-cols-2 gap-2.5 [animation-delay:320ms] md:hidden">
-                    @foreach ($heroChips as $i => $category)
-                        <a href="{{ $category['url'] }}"
-                           class="group inline-flex min-h-9 items-center justify-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-center shadow-sm transition hover:scale-105 hover:border-blue-600 hover:bg-blue-600 hover:opacity-100 hover:shadow-md focus-visible:opacity-100 active:scale-95 {{ $i >= 6 ? 'opacity-60' : '' }}">
-                            <span class="material-symbols-outlined text-[18px] text-blue-600 group-hover:text-white">{{ $chipIcons[$i] }}</span>
-                            <span class="min-w-0 truncate text-xs font-semibold text-slate-600 group-hover:text-white">{{ $category['name'] }}</span>
-                        </a>
+            {{-- Stats inline (desktop saja; mobile pakai bento di bawah) --}}
+            <div class="hidden w-full max-w-3xl grid-cols-3 gap-8 border-t border-slate-200/60 pt-8 md:grid md:gap-16">
+                <div class="flex flex-col items-center">
+                    <span class="text-2xl font-extrabold text-slate-950 sm:text-3xl">{{ number_format($stats['jobs']) }}+</span>
+                    <span class="mt-1 text-xs font-semibold text-slate-500 sm:text-sm">Lowongan</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <span class="text-2xl font-extrabold text-slate-950 sm:text-3xl">{{ number_format($stats['companies']) }}+</span>
+                    <span class="mt-1 text-xs font-semibold text-slate-500 sm:text-sm">Perusahaan</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <span class="text-2xl font-extrabold text-slate-950 sm:text-3xl">{{ number_format($stats['seekers']) }}+</span>
+                    <span class="mt-1 text-xs font-semibold text-slate-500 sm:text-sm">Kandidat</span>
+                </div>
+            </div>
+
+            {{-- Pill kategori versi mobile --}}
+            <div class="mt-10 grid w-full max-w-sm grid-cols-2 gap-2.5 md:hidden">
+                @foreach ($heroChips->take(6) as $i => $category)
+                    <a href="{{ $category['url'] }}"
+                       class="group inline-flex min-h-9 items-center justify-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-center shadow-sm transition hover:border-blue-600 hover:bg-blue-600 active:scale-95">
+                        <span class="material-symbols-outlined text-[18px] text-blue-600 group-hover:text-white">{{ $chipIcons[$i] }}</span>
+                        <span class="min-w-0 truncate text-xs font-semibold text-slate-600 group-hover:text-white">{{ $category['name'] }}</span>
+                    </a>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+    {{-- ========================= FEATURED JOBS ========================= --}}
+    <section class="bg-white px-4 py-20 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl">
+            <div data-reveal class="mb-12 flex items-end justify-between">
+                <div>
+                    <h2 class="mb-2 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">Lowongan Pilihan</h2>
+                    <p class="text-sm text-slate-600 sm:text-base">Peluang terbaik dari perusahaan di YourJob.</p>
+                </div>
+                <a href="{{ route('jobs.index') }}" class="hidden items-center gap-1 text-sm font-bold text-blue-600 transition hover:text-blue-700 md:flex">
+                    Lihat semua <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                </a>
+            </div>
+
+            @if ($latestJobs->isNotEmpty())
+                {{-- Mobile: scroll horizontal snap. Desktop: grid. --}}
+                <div class="no-scrollbar -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4 md:mx-0 md:grid md:grid-cols-2 md:gap-6 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-3">
+                    @foreach ($latestJobs->take(6) as $job)
+                        <div data-reveal="pop" data-reveal-delay="{{ ($loop->index % 3) * 100 }}" class="w-[280px] shrink-0 snap-start md:w-auto md:shrink">
+                            @include('partials.job-card', ['job' => $job])
+                        </div>
                     @endforeach
                 </div>
+            @else
+                <div class="rounded-2xl border border-dashed border-slate-300 bg-slate-50 py-16 text-center text-slate-500">
+                    Belum ada lowongan aktif saat ini.
+                </div>
             @endif
-        </div>
-    </section>
 
-    {{-- Jelajah kategori: role asli dari database, plus lokasi dan industri --}}
-    <section class="border-t border-slate-200 bg-gradient-to-b from-white via-slate-50/60 to-white px-4 py-14 sm:py-20">
-        <div class="mx-auto max-w-7xl">
-            <h2 data-reveal="pop" class="mb-10 text-center text-2xl font-bold tracking-tight text-slate-950 sm:mb-12 sm:text-3xl">Temukan pekerjaan yang tepat</h2>
-            <div class="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-12">
-                @php
-                    $browseColumns = [
-                        ['title' => 'Roles', 'items' => $categories->take(6)->map(fn ($c) => ['label' => $c->name, 'url' => route('jobs.index', ['category' => $c->id])])->all()],
-                        ['title' => 'Lokasi', 'items' => collect(['Jakarta', 'Bandung', 'Yogyakarta', 'Surabaya', 'Remote'])->map(fn ($city) => ['label' => $city, 'url' => route('jobs.index', ['city' => $city])])->all()],
-                        ['title' => 'Industri', 'items' => collect(['AI', 'Web3', 'E-commerce', 'SaaS', 'Fintech'])->map(fn ($ind) => ['label' => $ind, 'url' => route('jobs.index', ['q' => $ind])])->all()],
-                    ];
-                @endphp
-                @foreach ($browseColumns as $column)
-                    <div data-reveal="pop" data-reveal-delay="{{ $loop->index * 120 }}">
-                        <h3 class="mb-6 border-b border-slate-200 pb-2 text-sm font-semibold uppercase tracking-widest text-slate-500">{{ $column['title'] }}</h3>
-                        <ul class="space-y-3 text-slate-800">
-                            @forelse ($column['items'] as $item)
-                                <li>
-                                    <a href="{{ $item['url'] }}" class="group flex items-center justify-between transition-colors hover:text-blue-600">
-                                        {{ $item['label'] }}
-                                        <span class="material-symbols-outlined text-[18px] opacity-0 transition-opacity group-hover:opacity-100">arrow_outward</span>
-                                    </a>
-                                </li>
-                            @empty
-                                <li class="text-sm text-slate-400">Belum ada data.</li>
-                            @endforelse
-                        </ul>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-    </section>
-
-    {{-- Statistik singkat dengan data asli dari database --}}
-    <section class="border-t border-slate-200 bg-gradient-to-br from-blue-50/50 via-white to-violet-50/40 py-14 sm:py-16">
-        <div class="mx-auto grid max-w-7xl grid-cols-1 gap-8 divide-y divide-slate-200 px-4 text-center sm:px-6 md:grid-cols-3 md:divide-x md:divide-y-0 lg:px-8">
-            <div data-reveal="pop" class="py-4">
-                <div class="text-4xl font-extrabold text-blue-600 sm:text-5xl">{{ number_format($stats['jobs']) }}+</div>
-                <p class="mt-2 text-sm font-medium text-slate-500">Active jobs</p>
-            </div>
-            <div data-reveal="pop" data-reveal-delay="120" class="py-4">
-                <div class="text-4xl font-extrabold text-blue-600 sm:text-5xl">{{ number_format($stats['companies']) }}</div>
-                <p class="mt-2 text-sm font-medium text-slate-500">Companies</p>
-            </div>
-            <div data-reveal="pop" data-reveal-delay="240" class="py-4">
-                <div class="text-4xl font-extrabold text-blue-600 sm:text-5xl">{{ number_format($stats['seekers']) }}</div>
-                <p class="mt-2 text-sm font-medium text-slate-500">Simple profiles</p>
-            </div>
-        </div>
-    </section>
-
-    {{-- Strip logo perusahaan sebagai placeholder tampilan --}}
-    <section class="bg-gradient-to-b from-slate-50 via-white to-slate-50 px-4 py-14 sm:py-20">
-        <div class="mx-auto max-w-7xl text-center">
-            <h2 data-reveal class="mx-auto mb-8 max-w-xs text-lg font-bold leading-snug text-slate-500 sm:mb-10 sm:max-w-none sm:text-xl">Perusahaan yang sudah bergabung</h2>
-            <div data-reveal class="grid grid-cols-2 items-center gap-x-4 gap-y-5 sm:grid-cols-3 md:grid-cols-4 md:gap-8 lg:grid-cols-6">
-                @foreach ([
-                    ['rocket_launch', 'Acme'], ['code_blocks', 'DevCo'], ['payments', 'FinStart'],
-                    ['shopping_bag', 'ShopAI'], ['health_and_safety', 'MedTech'], ['eco', 'GreenEnergy'],
-                    ['public', 'GlobalNet'], ['auto_awesome', 'CreativeSy'], ['database', 'DataCore'],
-                    ['shield', 'SecureIT'], ['architecture', 'BuildPro'], ['psychology', 'MindAI'],
-                ] as $i => [$icon, $name])
-                    <div class="mx-auto flex w-full max-w-[9rem] items-center justify-center gap-1.5 rounded-xl px-2 py-1.5 text-base font-bold text-slate-800 opacity-50 grayscale transition-all duration-300 hover:opacity-100 hover:grayscale-0 sm:max-w-none sm:gap-2 sm:text-xl {{ $i >= 6 ? 'hidden md:flex' : '' }}">
-                        <span class="material-symbols-outlined shrink-0 text-[18px] text-blue-600 sm:text-[24px]">{{ $icon }}</span>
-                        <span class="min-w-0 truncate">{{ $name }}</span>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-    </section>
-
-    {{-- Dua highlight nilai utama dalam layout bento --}}
-    <section class="border-t border-slate-200 bg-slate-50 px-4 py-14 sm:py-20">
-        <div class="mx-auto grid max-w-7xl grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12">
-            @php
-                $bento = [
-                    [
-                        'eyebrow' => 'Untuk Pencari Kerja', 'title' => 'Temukan tempat dimana kamu dihargai.', 'accent' => false,
-                        'features' => [
-                            ['handshake', 'Koneksi Langsung', 'Terhubung langsung dengan hiring manager. Tanpa perantara.'],
-                            ['visibility', 'Transparansi Penuh', 'Lihat lokasi, tipe kerja, dan estimasi gaji sebelum apply.'],
-                            ['bolt', 'Apply Mudah', 'Satu profil tersimpan untuk apply ke banyak lowongan dengan cepat.'],
-                            ['star', 'Pekerjaan Relevan', 'Filter dan pencarian membantu kamu fokus ke role yang cocok.'],
-                        ],
-                    ],
-                    [
-                        'eyebrow' => 'Untuk Perusahaan', 'title' => 'Bangun tim solid lebih cepat.', 'accent' => true,
-                        'features' => [
-                            ['group', 'Akses Talenta', 'Jangkau pencari kerja aktif dari satu platform yang rapi.'],
-                            ['speed', 'Setup Cepat', 'Posting lowongan dalam hitungan menit dan mulai terima pelamar.'],
-                            ['view_kanban', 'Pipeline Sederhana', 'Pantau lamaran masuk dari dashboard yang ringkas.'],
-                            ['smart_toy', 'Brand Rapi', 'Lowongan tampil modern dan konsisten di semua layar.'],
-                        ],
-                    ],
-                ];
-            @endphp
-            @foreach ($bento as $card)
-                <div data-reveal="pop" data-reveal-delay="{{ $loop->index * 120 }}" class="flex h-full flex-col rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
-                    <div class="mb-8 border-b border-slate-200 pb-6">
-                        <span class="mb-4 inline-block rounded-full {{ $card['accent'] ? 'bg-slate-100 text-slate-700' : 'bg-blue-50 text-blue-700' }} px-3 py-1 text-sm font-semibold">{{ $card['eyebrow'] }}</span>
-                        <h2 class="text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">{{ $card['title'] }}</h2>
-                    </div>
-                    <div class="grid flex-grow grid-cols-1 gap-6 sm:grid-cols-2">
-                        @foreach ($card['features'] as [$icon, $featTitle, $featDesc])
-                            <div class="flex flex-col gap-3">
-                                <div class="flex h-12 w-12 items-center justify-center rounded-xl {{ $card['accent'] ? 'bg-slate-100 text-slate-700' : 'bg-blue-50 text-blue-600' }}">
-                                    <span class="material-symbols-outlined">{{ $icon }}</span>
-                                </div>
-                                <h3 class="font-semibold text-slate-950">{{ $featTitle }}</h3>
-                                <p class="text-sm leading-6 text-slate-600">{{ $featDesc }}</p>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            @endforeach
-        </div>
-    </section>
-
-    {{-- Lowongan unggulan dari data asli --}}
-    <section class="bg-white py-14 sm:py-20">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div data-reveal class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-                <div>
-                    <p class="text-sm font-bold uppercase tracking-widest text-blue-600">Featured</p>
-                    <h2 class="mt-3 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">Lowongan pilihan</h2>
-                    <p class="mt-2 text-sm text-slate-600">Hand-picked opportunities dari data project kamu.</p>
-                </div>
-                <a href="{{ route('jobs.index') }}" class="text-sm font-bold text-blue-600 hover:underline">
-                    View all jobs
+            <div class="mt-8 text-center md:hidden">
+                <a href="{{ route('jobs.index') }}" class="inline-flex items-center gap-1 rounded-full border border-blue-600/20 px-4 py-2 text-sm font-bold text-blue-600 transition hover:bg-blue-50">
+                    Lihat semua lowongan <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
                 </a>
             </div>
-
-            <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                @foreach ($latestJobs->take(6) as $job)
-                    <div data-reveal="pop" data-reveal-delay="{{ ($loop->index % 3) * 100 }}">
-                        @include('partials.job-card', ['job' => $job])
-                    </div>
-                @endforeach
-            </div>
         </div>
     </section>
 
-    {{-- CTA bawah untuk mengajak user mulai mencari lowongan --}}
-    <section class="bg-slate-900 px-4 py-16 text-center text-white sm:py-20">
-        <div class="mx-auto max-w-2xl">
-            <h2 data-reveal="pop" class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">Siap Memulai?</h2>
-            <p data-reveal="pop" data-reveal-delay="100" class="mx-auto mt-4 max-w-xl text-sm leading-6 text-slate-300 sm:text-lg sm:leading-7">
-                Bergabunglah dengan talenta dan perusahaan lainnya di YourJob hari ini.
-            </p>
-            <div data-reveal="pop" data-reveal-delay="200" class="mt-9 flex flex-col justify-center gap-3 sm:mt-10 sm:flex-row sm:gap-4">
-                <a href="{{ route('jobs.index') }}" class="inline-flex min-h-12 items-center justify-center rounded-xl bg-blue-600 px-8 py-3.5 text-sm font-bold text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-700 sm:py-4">
-                    Cari Pekerjaan Sekarang
-                </a>
+    {{-- =================== STATS BENTO (mobile saja) =================== --}}
+    <section class="bg-white px-4 pb-16 md:hidden">
+        <div class="grid grid-cols-2 gap-3">
+            <div class="glass-card relative flex flex-col items-center justify-center gap-1 overflow-hidden rounded-2xl p-5 text-center">
+                <div class="absolute -right-4 -top-4 h-16 w-16 rounded-full bg-blue-600/10 blur-xl"></div>
+                <span class="text-3xl font-extrabold text-blue-600">{{ number_format($stats['jobs']) }}+</span>
+                <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Lowongan Aktif</span>
+            </div>
+            <div class="glass-card relative flex flex-col items-center justify-center gap-1 overflow-hidden rounded-2xl p-5 text-center">
+                <div class="absolute -bottom-4 -left-4 h-16 w-16 rounded-full bg-violet-accent/10 blur-xl"></div>
+                <span class="text-3xl font-extrabold text-violet-accent">{{ number_format($stats['companies']) }}+</span>
+                <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Perusahaan</span>
+            </div>
+            <div class="glass-card col-span-2 flex items-center justify-between rounded-2xl border-l-4 border-l-blue-600 p-5">
+                <div class="flex flex-col">
+                    <span class="text-sm font-bold text-slate-950">Dapatkan Notifikasi Lowongan</span>
+                    <span class="text-sm text-slate-600">Jangan lewatkan peluang baru.</span>
+                </div>
                 @auth
-                    <a href="{{ route('dashboard') }}" class="inline-flex min-h-12 items-center justify-center rounded-xl border border-white/30 bg-transparent px-8 py-3.5 text-sm font-bold text-white transition hover:bg-white/10 sm:py-4">
-                        Post Pekerjaan
+                    <a href="{{ route('preferences') }}" class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-100 text-blue-600 shadow-sm transition hover:bg-blue-600 hover:text-white active:scale-95">
+                        <span class="material-symbols-outlined text-xl">notifications_active</span>
                     </a>
                 @else
-                    <button type="button" @click="authModal = 'register'" class="inline-flex min-h-12 items-center justify-center rounded-xl border border-white/30 bg-transparent px-8 py-3.5 text-sm font-bold text-white transition hover:bg-white/10 sm:py-4">
-                        Post Pekerjaan
+                    <button type="button" @click="authModal = 'register'" class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-100 text-blue-600 shadow-sm transition hover:bg-blue-600 hover:text-white active:scale-95">
+                        <span class="material-symbols-outlined text-xl">notifications_active</span>
                     </button>
                 @endauth
+            </div>
+        </div>
+    </section>
+
+    {{-- ============================== CTA ============================== --}}
+    <section class="px-4 py-20 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl">
+            <div class="relative overflow-hidden rounded-[2rem] border border-blue-200/40 bg-slate-50">
+                <div class="absolute inset-0 bg-gradient-to-br from-blue-600/15 via-white to-violet-accent/10 opacity-60"></div>
+                <div class="relative z-10 flex flex-col items-center justify-between gap-12 px-8 py-16 text-center md:flex-row md:px-16 md:py-24 md:text-left">
+                    <div class="max-w-xl">
+                        <h2 data-reveal="pop" class="mb-4 text-3xl font-extrabold tracking-tight text-slate-950 sm:text-4xl">Mulai Rekrut Hari Ini</h2>
+                        <p data-reveal="pop" data-reveal-delay="100" class="mb-8 text-base leading-7 text-slate-600 sm:text-lg">
+                            Bergabung dengan perusahaan yang membangun tim impian mereka di YourJob. Pasang lowongan pertamamu gratis.
+                        </p>
+                        <div class="flex flex-col justify-center gap-4 sm:flex-row md:justify-start">
+                            @auth
+                                <a href="{{ route('dashboard') }}" class="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-violet-accent px-8 py-4 text-base font-bold text-white shadow-lg shadow-blue-600/30 transition hover:brightness-105 active:scale-[0.98]">
+                                    Pasang Lowongan Gratis
+                                </a>
+                            @else
+                                <button type="button" @click="authModal = 'register'" class="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-violet-accent px-8 py-4 text-base font-bold text-white shadow-lg shadow-blue-600/30 transition hover:brightness-105 active:scale-[0.98]">
+                                    Pasang Lowongan Gratis
+                                </button>
+                            @endauth
+                            <a href="{{ route('jobs.index') }}" class="inline-flex items-center justify-center rounded-full border border-blue-600/20 bg-white px-8 py-4 text-base font-bold text-blue-600 transition hover:bg-blue-50">
+                                Jelajahi Lowongan
+                            </a>
+                        </div>
+                    </div>
+
+                    {{-- Ilustrasi kartu melayang --}}
+                    <div class="relative flex w-full justify-center md:w-1/3">
+                        <div class="absolute h-64 w-64 rounded-full bg-gradient-to-tr from-blue-600 to-violet-accent opacity-20 blur-3xl"></div>
+                        <div class="glass-card relative z-10 flex h-48 w-48 rotate-12 items-center justify-center rounded-2xl border border-white/40 shadow-xl">
+                            <span class="material-symbols-outlined text-[80px] text-blue-600" style="font-variation-settings: 'FILL' 1;">rocket_launch</span>
+                        </div>
+                        <div class="glass-card absolute bottom-0 left-0 z-20 flex h-32 w-32 -rotate-12 items-center justify-center rounded-2xl border border-white/40 shadow-lg">
+                            <span class="material-symbols-outlined text-[48px] text-emerald-600" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>

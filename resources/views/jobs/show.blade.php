@@ -3,84 +3,139 @@
 @php
     $company = $job->employer?->companyProfile;
     $isSeeker = auth()->check() && auth()->user()->isSeeker();
+    $companyName = $company?->company_name ?? $job->employer?->name;
 @endphp
 
 @section('content')
-<div class="mx-auto max-w-6xl space-y-6 p-4 sm:p-6 lg:p-8">
-    <a href="{{ route('jobs.index') }}" class="text-sm font-semibold text-blue-600 hover:underline">Back to listings</a>
+<div class="px-4 py-10 sm:px-6 lg:px-8">
+    <div class="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1fr_360px]">
+        <section class="glass-panel rounded-3xl p-6 sm:p-8">
+            <a href="{{ route('jobs.index') }}" class="mb-6 inline-flex items-center gap-2 text-sm font-bold text-blue-600 hover:underline">
+                <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+                Back to listings
+            </a>
 
-    <div class="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200/75 sm:p-6">
-        <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-            <div>
-                <h1 class="text-2xl font-bold text-slate-950 sm:text-3xl">{{ $job->title }}</h1>
-                <p class="mt-2 text-sm text-slate-600">{{ $company?->company_name ?? $job->employer?->name }} - {{ $job->location_label }}</p>
-            </div>
-            <div class="flex flex-wrap gap-3">
+            <div class="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+                <div class="min-w-0">
+                    <div class="mb-4 flex flex-wrap gap-2">
+                        <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700">{{ $job->type_label }}</span>
+                        <span class="rounded-full bg-blue-50 px-3 py-1 text-xs font-bold text-blue-700">{{ $job->location_label }}</span>
+                    </div>
+                    <h1 class="text-3xl font-extrabold leading-tight text-slate-950 sm:text-5xl">{{ $job->title }}</h1>
+                    <p class="mt-4 flex items-center gap-2 text-sm font-semibold text-slate-600">
+                        <span class="material-symbols-outlined text-[18px] text-blue-600">domain</span>
+                        {{ $companyName }} • {{ $job->city ?: $job->location_label }}
+                    </p>
+                </div>
+
                 @auth
                     @if ($isSeeker)
-                        <button id="bookmarkBtn" data-url="{{ route('seeker.save', $job) }}" class="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600 transition hover:text-red-500">
-                            <span id="bookmarkLabel">{{ $isSaved ? '♥ Saved' : '♡ Save' }}</span>
+                        <button id="bookmarkBtn" data-url="{{ route('seeker.save', $job) }}" class="inline-flex items-center justify-center gap-2 rounded-full border border-white/60 bg-white/70 px-4 py-2 text-sm font-bold text-slate-600 shadow-sm transition hover:text-red-500">
+                            <span class="material-symbols-outlined text-[20px]">favorite</span>
+                            <span id="bookmarkLabel">{{ $isSaved ? 'Saved' : 'Save' }}</span>
                         </button>
                     @endif
                 @endauth
-                @guest
-                    <button type="button" @click="authModal = 'login'" class="rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700">Apply</button>
-                @endguest
             </div>
-        </div>
 
-        <div class="mt-6 grid gap-3 sm:grid-cols-3">
-            <div class="rounded-2xl bg-slate-50 p-4">
-                <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Type</p>
-                <p class="mt-1 font-semibold text-slate-950">{{ $job->type_label }}</p>
+            <div class="mt-8 grid gap-3 sm:grid-cols-3">
+                <div class="rounded-2xl bg-white/60 p-5">
+                    <p class="text-xs font-bold uppercase tracking-wide text-slate-500">Experience</p>
+                    <p class="mt-2 font-extrabold text-slate-950">{{ $job->experience_label }}</p>
+                </div>
+                <div class="rounded-2xl bg-white/60 p-5">
+                    <p class="text-xs font-bold uppercase tracking-wide text-slate-500">Salary</p>
+                    <p class="mt-2 font-extrabold text-slate-950">{{ $job->salary_range }}</p>
+                </div>
+                <div class="rounded-2xl bg-white/60 p-5">
+                    <p class="text-xs font-bold uppercase tracking-wide text-slate-500">Deadline</p>
+                    <p class="mt-2 font-extrabold text-slate-950">{{ $job->deadline?->format('d M Y') ?? 'Flexible' }}</p>
+                </div>
             </div>
-            <div class="rounded-2xl bg-slate-50 p-4">
-                <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Experience</p>
-                <p class="mt-1 font-semibold text-slate-950">{{ $job->experience_label }}</p>
-            </div>
-            <div class="rounded-2xl bg-slate-50 p-4">
-                <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">Salary</p>
-                <p class="mt-1 font-semibold text-slate-950">{{ $job->salary_range }}</p>
-            </div>
-        </div>
 
-        <div class="prose mt-8 max-w-none text-slate-700">
-            <h2 class="text-xl font-bold text-slate-950">Description</h2>
-            <p class="whitespace-pre-line">{{ $job->description }}</p>
+            <div class="mt-10 space-y-8 text-slate-700">
+                <section>
+                    <h2 class="text-xl font-extrabold text-slate-950">Description</h2>
+                    <p class="mt-3 whitespace-pre-line leading-7">{{ $job->description }}</p>
+                </section>
 
-            <h2 class="mt-6 text-xl font-bold text-slate-950">Requirements</h2>
-            <p class="whitespace-pre-line">{{ $job->requirements }}</p>
+                <section>
+                    <h2 class="text-xl font-extrabold text-slate-950">Requirements</h2>
+                    <p class="mt-3 whitespace-pre-line leading-7">{{ $job->requirements }}</p>
+                </section>
 
-            @if ($job->benefits)
-                <h2 class="mt-6 text-xl font-bold text-slate-950">Benefits</h2>
-                <p class="whitespace-pre-line">{{ $job->benefits }}</p>
-            @endif
-        </div>
-    </div>
-
-    @auth
-        @if ($isSeeker)
-            <div class="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-200/75 sm:p-6">
-                @if ($hasApplied)
-                    <div class="rounded-2xl bg-green-50 p-4 text-sm font-semibold text-green-700">Kamu sudah melamar lowongan ini.</div>
-                @elseif ($job->status === 'active')
-                    <h2 class="text-xl font-semibold text-slate-950">Apply for this job</h2>
-                    <form action="{{ route('seeker.apply', $job) }}" method="POST" enctype="multipart/form-data" class="mt-4 grid gap-4 sm:max-w-xl">
-                        @csrf
-                        <label class="space-y-2">
-                            <span class="text-sm font-medium text-slate-700">CV (PDF)</span>
-                            <input type="file" name="cv_file" accept="application/pdf" required class="w-full rounded-2xl border border-slate-200 bg-slate-50 p-3 text-sm">
-                        </label>
-                        <label class="space-y-2">
-                            <span class="text-sm font-medium text-slate-700">Cover letter</span>
-                            <textarea name="cover_letter" rows="4" class="field" placeholder="Tulis pesan singkat...">{{ old('cover_letter') }}</textarea>
-                        </label>
-                        <button class="inline-flex items-center rounded-full bg-blue-600 px-5 py-3 text-sm font-semibold text-white">Apply</button>
-                    </form>
+                @if ($job->benefits)
+                    <section>
+                        <h2 class="text-xl font-extrabold text-slate-950">Benefits</h2>
+                        <p class="mt-3 whitespace-pre-line leading-7">{{ $job->benefits }}</p>
+                    </section>
                 @endif
             </div>
-        @endif
-    @endauth
+        </section>
+
+        <aside class="space-y-5">
+            <div class="glass-panel rounded-3xl p-6">
+                <div class="flex items-center gap-4">
+                    <div class="grid h-14 w-14 shrink-0 place-items-center overflow-hidden rounded-2xl bg-blue-50 text-blue-600">
+                        @if ($company?->logo)
+                            <img src="{{ asset('storage/' . $company->logo) }}" alt="{{ $companyName }}" class="h-full w-full object-cover">
+                        @else
+                            <span class="material-symbols-outlined text-3xl">domain</span>
+                        @endif
+                    </div>
+                    <div class="min-w-0">
+                        <p class="truncate font-extrabold text-slate-950">{{ $companyName }}</p>
+                        <p class="truncate text-sm font-semibold text-slate-500">{{ $company?->industry ?: 'Hiring company' }}</p>
+                    </div>
+                </div>
+
+                <div class="mt-6 space-y-3 text-sm">
+                    <div class="flex justify-between gap-4">
+                        <span class="text-slate-500">Views</span>
+                        <span class="font-bold text-slate-950">{{ number_format($job->view_count) }}</span>
+                    </div>
+                    <div class="flex justify-between gap-4">
+                        <span class="text-slate-500">Status</span>
+                        <span class="font-bold capitalize text-slate-950">{{ $job->status }}</span>
+                    </div>
+                </div>
+            </div>
+
+            @guest
+                <div class="glass-panel rounded-3xl p-6">
+                    <h2 class="text-xl font-extrabold text-slate-950">Apply for this job</h2>
+                    <p class="mt-2 text-sm leading-6 text-slate-600">Masuk dulu untuk mengirim CV dan cover letter.</p>
+                    <button type="button" @click="authModal = 'login'" class="mt-5 w-full rounded-full bg-gradient-to-r from-blue-600 to-violet-accent px-5 py-3 text-sm font-bold text-white shadow-lg shadow-blue-600/25 transition hover:brightness-105">
+                        Apply Now
+                    </button>
+                </div>
+            @endguest
+
+            @auth
+                @if ($isSeeker)
+                    <div class="glass-panel rounded-3xl p-6">
+                        @if ($hasApplied)
+                            <div class="rounded-2xl bg-emerald-50 p-4 text-sm font-bold text-emerald-700">Kamu sudah melamar lowongan ini.</div>
+                        @elseif ($job->status === 'active')
+                            <h2 class="text-xl font-extrabold text-slate-950">Apply for this job</h2>
+                            <form action="{{ route('seeker.apply', $job) }}" method="POST" enctype="multipart/form-data" class="mt-5 grid gap-4">
+                                @csrf
+                                <label class="space-y-2">
+                                    <span class="text-sm font-bold text-slate-700">CV (PDF)</span>
+                                    <input type="file" name="cv_file" accept="application/pdf" required class="field p-3 text-sm">
+                                </label>
+                                <label class="space-y-2">
+                                    <span class="text-sm font-bold text-slate-700">Cover letter</span>
+                                    <textarea name="cover_letter" rows="4" class="field" placeholder="Tulis pesan singkat...">{{ old('cover_letter') }}</textarea>
+                                </label>
+                                <button class="rounded-full bg-gradient-to-r from-blue-600 to-violet-accent px-5 py-3 text-sm font-bold text-white shadow-lg shadow-blue-600/25 transition hover:brightness-105">Apply Now</button>
+                            </form>
+                        @endif
+                    </div>
+                @endif
+            @endauth
+        </aside>
+    </div>
 </div>
 
 @if (auth()->check() && auth()->user()->isSeeker())
@@ -95,7 +150,7 @@ document.getElementById('bookmarkBtn')?.addEventListener('click', async function
     });
     if (!res.ok) return;
     const data = await res.json();
-    document.getElementById('bookmarkLabel').textContent = data.saved ? '♥ Saved' : '♡ Save';
+    document.getElementById('bookmarkLabel').textContent = data.saved ? 'Saved' : 'Save';
 });
 </script>
 @endif
