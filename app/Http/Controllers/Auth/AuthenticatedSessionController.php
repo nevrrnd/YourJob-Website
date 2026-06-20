@@ -31,7 +31,7 @@ class AuthenticatedSessionController extends Controller
 
         LoginHistory::recordAdminLogin($request, $request->user());
 
-        return redirect()->intended(route('dashboard', absolute: true));
+        return redirect()->intended('https://yourjob.web.id/dashboard');
     }
 
     /**
