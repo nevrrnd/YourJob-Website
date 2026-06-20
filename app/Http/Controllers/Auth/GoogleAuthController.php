@@ -56,7 +56,7 @@ class GoogleAuthController extends Controller
             return redirect()->route('google.onboarding');
         }
 
-        return redirect()->intended(route('dashboard'));
+        return redirect()->intended(route('dashboard' , absolute: true));
     }
 
     public function onboarding()
@@ -107,6 +107,6 @@ class GoogleAuthController extends Controller
 
         session()->forget('needs_onboarding');
 
-        return redirect()->route('dashboard')->with('success', 'Profil berhasil dilengkapi.');
+        return redirect()->to(route('dashboard' , absolute: true))->with('success', 'Profil berhasil dilengkapi.');
     }
 }
