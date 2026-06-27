@@ -225,7 +225,7 @@
 (function () {
     // ─── CONFIG ────────────────────────────────────────────────────────────────
     const GEMINI_API_KEY = "{{ env('GEMINI_API_KEY', '') }}";
-    const GEMINI_MODEL = "gemini-1.5-flash-8b";
+    const GEMINI_MODEL = "gemini-2.5-flash";
 
     const SYSTEM_PROMPT = `Kamu adalah asisten virtual YourJob, platform job portal Indonesia.
 Jawab dalam Bahasa Indonesia yang ramah, singkat (maks 3-4 kalimat per jawaban), dan helpful.
