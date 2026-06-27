@@ -296,5 +296,6 @@
             </div>
         </div>
     </footer>
+    @include('components.chatbot')
 </body>
 </html>
