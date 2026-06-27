@@ -95,8 +95,18 @@
 .yj-bubble {
     padding: 9px 13px; border-radius: 14px;
     font-size: 13.5px; line-height: 1.55;
-    word-break: break-word; white-space: pre-wrap;
+    word-break: break-word;
 }
+.yj-bubble ol, .yj-bubble ul {
+    margin: 6px 0 4px; padding-left: 18px;
+}
+.yj-bubble li { margin-bottom: 3px; }
+.yj-bubble strong { font-weight: 600; }
+.yj-bubble a {
+    color: #2563eb; text-decoration: underline;
+    word-break: break-all;
+}
+.yj-msg.yj-user .yj-bubble a { color: #bfdbfe; }
 .yj-msg.yj-user .yj-bubble {
     background: #2563eb; color: white;
     border-bottom-right-radius: 4px;
@@ -225,7 +235,7 @@
 (function () {
     // ─── CONFIG ────────────────────────────────────────────────────────────────
     const GEMINI_API_KEY = "{{ env('GEMINI_API_KEY', '') }}";
-    const GEMINI_MODEL = "gemini-2.5-flash";
+    const GEMINI_MODEL   = "gemini-2.5-flash";
 
     const SYSTEM_PROMPT = `Kamu adalah asisten virtual YourJob, platform job portal Indonesia.
 Jawab dalam Bahasa Indonesia yang ramah, singkat (maks 3-4 kalimat per jawaban), dan helpful.
@@ -272,7 +282,21 @@ Selalu arahkan user ke fitur YourJob yang relevan.
 
 === BATASAN ===
 Hanya jawab pertanyaan seputar YourJob dan topik karir/pekerjaan.
-Jika ditanya hal lain (cuaca, politik, dll), tolak dengan sopan dan arahkan kembali ke topik karir.`;
+Jika ditanya hal lain (cuaca, politik, dll), tolak dengan sopan dan arahkan kembali ke topik karir.
+
+=== ATURAN FORMAT JAWABAN (WAJIB DIIKUTI) ===
+1. JANGAN pernah menjawab dalam satu paragraf panjang.
+2. Jika ada poin-poin atau fitur, gunakan bullet list dengan tanda "-" di awal setiap baris.
+3. Jika ada langkah-langkah urutan (cara daftar, cara melamar, dll), gunakan angka "1. 2. 3." dst.
+4. Jika user tanya tentang halaman/fitur tertentu di website, sertakan link-nya:
+   - Halaman utama: https://yourjob.web.id
+   - Daftar akun: https://yourjob.web.id/register
+   - Login: https://yourjob.web.id/login
+   - Cari lowongan: https://yourjob.web.id/jobs
+   - Profil saya: https://yourjob.web.id/profile
+   - Lamaran saya: https://yourjob.web.id/applications
+5. Jawaban singkat dan to the point, maksimal 5 poin per jawaban.
+6. Gunakan **teks** hanya untuk judul/label penting saja, jangan semua kalimat di-bold.`;
 
     // ─── STATE ─────────────────────────────────────────────────────────────────
     let isOpen    = false;
@@ -298,13 +322,67 @@ Jika ditanya hal lain (cuaca, politik, dll), tolak dengan sopan dan arahkan kemb
         messagesEl.scrollTop = messagesEl.scrollHeight;
     }
 
+    function formatText(text) {
+        // escape HTML dulu
+        let s = text
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+
+        // bold **text**
+        s = s.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+        // link [label](url) atau url mentah
+        s = s.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+        s = s.replace(/(?<![">])(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+
+        // split per baris, deteksi ordered/unordered list
+        const lines = s.split('\n');
+        let html = '';
+        let inOl = false, inUl = false;
+
+        lines.forEach(line => {
+            const olMatch = line.match(/^(\d+)\.\s+(.*)$/);
+            const ulMatch = line.match(/^[-•*]\s+(.*)$/);
+
+            if (olMatch) {
+                if (inUl) { html += '</ul>'; inUl = false; }
+                if (!inOl) { html += '<ol>'; inOl = true; }
+                html += `<li>${olMatch[2]}</li>`;
+            } else if (ulMatch) {
+                if (inOl) { html += '</ol>'; inOl = false; }
+                if (!inUl) { html += '<ul>'; inUl = true; }
+                html += `<li>${ulMatch[1]}</li>`;
+            } else {
+                if (inOl) { html += '</ol>'; inOl = false; }
+                if (inUl) { html += '</ul>'; inUl = false; }
+                if (line.trim() === '') {
+                    html += '<br>';
+                } else {
+                    html += line + '<br>';
+                }
+            }
+        });
+
+        if (inOl) html += '</ol>';
+        if (inUl) html += '</ul>';
+
+        // hapus trailing <br>
+        html = html.replace(/(<br>)+$/, '');
+        return html;
+    }
+
     function addMessage(role, text) {
         const wrap   = document.createElement('div');
         wrap.className = `yj-msg ${role === 'user' ? 'yj-user' : 'yj-bot'}`;
 
         const bub = document.createElement('div');
         bub.className = 'yj-bubble';
-        bub.textContent = text;
+        if (role === 'user') {
+            bub.textContent = text;
+        } else {
+            bub.innerHTML = formatText(text);
+        }
 
         const time = document.createElement('div');
         time.className = 'yj-time';
@@ -338,10 +416,10 @@ Jika ditanya hal lain (cuaca, politik, dll), tolak dengan sopan dan arahkan kemb
         addMessage('bot',
             'Halo! Saya asisten YourJob 👋\n\n' +
             'Saya bisa membantu kamu:\n' +
-            '• Mencari lowongan kerja\n' +
-            '• Panduan daftar & login\n' +
-            '• Tips CV dan interview\n' +
-            '• FAQ seputar YourJob\n\n' +
+            '- Mencari lowongan kerja\n' +
+            '- Panduan daftar & login\n' +
+            '- Tips CV dan interview\n' +
+            '- FAQ seputar YourJob\n\n' +
             'Ada yang bisa saya bantu?'
         );
     }
