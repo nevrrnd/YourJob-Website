@@ -1,76 +1,10 @@
 <style>
-* { box-sizing: border-box; }
-
-#yj-chat-bubble {
-    position: fixed; bottom: 24px; right: 24px; z-index: 9999;
-    width: 56px; height: 56px; border-radius: 50%;
-    background: linear-gradient(135deg, #4648d4 0%, #8b5cf6 100%); border: none; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 8px 24px rgba(70, 72, 212, 0.35);
-    transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.25s ease;
-}
-#yj-chat-bubble:hover { transform: scale(1.08) translateY(-2px); box-shadow: 0 12px 28px rgba(70, 72, 212, 0.45); }
-#yj-chat-bubble:active { transform: scale(0.95); }
-#yj-chat-bubble svg { width: 26px; height: 26px; fill: white; }
-
-#yj-notif-badge {
-    position: absolute; top: -3px; right: -3px;
-    background: #ef4444; color: white; font-size: 11px; font-weight: 600;
-    width: 18px; height: 18px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    border: 2px solid white;
-    box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4);
-}
-
-#yj-chat-panel {
-    position: fixed; bottom: 92px; right: 24px; z-index: 9998;
-    width: 380px; max-height: 580px;
-    background: rgba(255, 255, 255, 0.95);
-    border: 1px solid rgba(70, 72, 212, 0.15);
-    border-radius: 20px;
-    display: flex; flex-direction: column;
-    overflow: hidden;
-    transform: scale(0.92) translateY(12px);
-    opacity: 0; pointer-events: none;
-    transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease, backdrop-filter 0.2s;
-    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(70, 72, 212, 0.05);
-    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-}
 #yj-chat-panel.yj-open {
     transform: scale(1) translateY(0);
-    opacity: 1; pointer-events: all;
+    opacity: 1;
+    pointer-events: auto;
 }
-
-#yj-header {
-    background: linear-gradient(135deg, #4648d4 0%, #8b5cf6 100%);
-    padding: 16px 20px;
-    display: flex; align-items: center; gap: 12px;
-    flex-shrink: 0;
-    border-top-left-radius: 19px;
-    border-top-right-radius: 19px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-#yj-avatar {
-    width: 40px; height: 40px; border-radius: 50%;
-    background: #ffffff;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-    overflow: hidden;
-    padding: 4px;
-}
-#yj-avatar img {
-    width: 100%; height: 100%; object-fit: contain;
-}
-#yj-header-info { flex: 1; }
-#yj-header-info h3 { color: white; font-size: 15px; font-weight: 700; margin: 0 0 2px; line-height: 1.3; letter-spacing: -0.01em; }
-#yj-header-info p { color: rgba(255, 255, 255, 0.85); font-size: 12px; margin: 0; font-weight: 500; display: flex; align-items: center; }
-#yj-online-dot {
-    display: inline-block; width: 8px; height: 8px;
-    background: #4ade80; border-radius: 50%; margin-right: 6px;
-    position: relative;
+.yj-pulse {
     animation: yj-pulse 2s infinite;
 }
 @keyframes yj-pulse {
@@ -78,177 +12,64 @@
     70% { box-shadow: 0 0 0 6px rgba(74, 222, 128, 0); }
     100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
 }
-
-#yj-close-btn {
-    background: none; border: none; cursor: pointer;
-    color: rgba(255, 255, 255, 0.85); padding: 6px; border-radius: 8px;
-    display: flex; align-items: center; transition: all 0.2s ease;
-}
-#yj-close-btn:hover { color: white; background: rgba(255, 255, 255, 0.15); transform: rotate(90deg); }
-
-#yj-messages {
-    flex: 1; overflow-y: auto; padding: 18px;
-    display: flex; flex-direction: column; gap: 12px;
-    scroll-behavior: smooth;
-    min-height: 240px;
-    background-color: #faf8ff;
-}
-#yj-messages::-webkit-scrollbar { width: 5px; }
-#yj-messages::-webkit-scrollbar-track { background: transparent; }
-#yj-messages::-webkit-scrollbar-thumb { background: rgba(70, 72, 212, 0.15); border-radius: 3px; }
-#yj-messages::-webkit-scrollbar-thumb:hover { background: rgba(70, 72, 212, 0.3); }
-
-.yj-msg { display: flex; flex-direction: column; max-width: 85%; }
-.yj-msg.yj-user { align-self: flex-end; align-items: flex-end; }
-.yj-msg.yj-bot  { align-self: flex-start; align-items: flex-start; }
-
-.yj-bubble {
-    padding: 10px 14px; border-radius: 16px;
-    font-size: 14px; line-height: 1.6;
-    word-break: break-word;
-}
-.yj-bubble ol, .yj-bubble ul {
-    margin: 8px 0 6px; padding-left: 20px;
-}
-.yj-bubble li { margin-bottom: 4px; }
-.yj-bubble strong { font-weight: 700; color: inherit; }
-.yj-bubble a {
-    color: #4648d4; text-decoration: none; font-weight: 600;
-    border-bottom: 1px dashed #4648d4; transition: border-bottom-style 0.15s;
-    word-break: break-all;
-}
-.yj-bubble a:hover {
-    border-bottom-style: solid;
-}
-.yj-msg.yj-user .yj-bubble a { color: #e1e0ff; border-bottom-color: #e1e0ff; }
-.yj-msg.yj-user .yj-bubble {
-    background: linear-gradient(135deg, #4648d4 0%, #6063ee 100%); color: white;
-    border-bottom-right-radius: 4px;
-    box-shadow: 0 4px 12px rgba(70, 72, 212, 0.15);
-}
-.yj-msg.yj-bot .yj-bubble {
-    background: #ffffff; color: #1e293b;
-    border-bottom-left-radius: 4px;
-    border: 1px solid rgba(70, 72, 212, 0.08);
-    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
-}
-.yj-time {
-    font-size: 11px; color: #94a3b8;
-    margin-top: 4px; padding: 0 4px;
-    font-weight: 500;
-}
-
-.yj-typing-dot {
-    display: inline-block; width: 6px; height: 6px;
-    background: #4648d4; border-radius: 50%;
-    margin: 0 2.5px; animation: yj-bounce 1.2s infinite;
-    opacity: 0.7;
-}
-.yj-typing-dot:nth-child(2) { animation-delay: 0.2s; }
-.yj-typing-dot:nth-child(3) { animation-delay: 0.4s; }
 @keyframes yj-bounce {
     0%, 60%, 100% { transform: translateY(0); }
     30%           { transform: translateY(-6px); }
 }
-
-#yj-quick-btns {
-    padding: 6px 16px 14px;
-    display: flex; flex-wrap: wrap; gap: 8px;
-    flex-shrink: 0;
-    background-color: #faf8ff;
-}
-.yj-quick-btn {
-    font-size: 12px; padding: 6px 12px; border-radius: 20px;
-    border: 1px solid rgba(70, 72, 212, 0.15);
-    background: rgba(238, 241, 255, 0.65); color: #4648d4;
-    cursor: pointer; transition: all 0.2s ease;
-    white-space: nowrap; font-family: inherit;
-    font-weight: 600;
-}
-.yj-quick-btn:hover { background: #e1e0ff; border-color: #c0c1ff; transform: translateY(-1.5px); box-shadow: 0 3px 8px rgba(70, 72, 212, 0.1); }
-.yj-quick-btn:active { transform: translateY(0); }
-
-#yj-input-area {
-    padding: 12px 16px 16px;
-    border-top: 1px solid rgba(70, 72, 212, 0.1);
-    display: flex; gap: 10px; align-items: flex-end;
-    flex-shrink: 0;
-    background: #fff;
-}
-#yj-input {
-    flex: 1; resize: none;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px; padding: 10px 14px;
-    font-size: 14px; font-family: inherit;
-    color: #1e293b; background: #f8fafc;
-    outline: none; max-height: 80px; line-height: 1.5;
-    transition: all 0.2s ease;
-}
-#yj-input:focus { border-color: #4648d4; background: #fff; box-shadow: 0 0 0 3px rgba(70, 72, 212, 0.15); }
-#yj-input::placeholder { color: #94a3b8; }
-
-#yj-send-btn {
-    width: 38px; height: 38px; border-radius: 50%;
-    background: linear-gradient(135deg, #4648d4 0%, #8b5cf6 100%); border: none; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0; transition: all 0.2s ease;
-    box-shadow: 0 4px 10px rgba(70, 72, 212, 0.2);
-}
-#yj-send-btn:hover   { filter: brightness(1.08); box-shadow: 0 6px 14px rgba(70, 72, 212, 0.3); transform: scale(1.05); }
-#yj-send-btn:active  { transform: scale(0.93); }
-#yj-send-btn:disabled { background: #c0c1ff; cursor: not-allowed; box-shadow: none; filter: none; }
-#yj-send-btn svg { width: 16px; height: 16px; fill: white; }
-
 </style>
 
 {{-- Chat Panel --}}
-<div id="yj-chat-panel" role="dialog" aria-label="YourJob Assistant" aria-hidden="true">
+<div id="yj-chat-panel" class="fixed bottom-[92px] right-6 z-[9998] w-[380px] max-h-[580px] bg-white/95 border border-blue-600/15 rounded-2xl flex flex-col overflow-hidden transition-all duration-300 shadow-lift backdrop-blur-xl font-sans opacity-0 pointer-events-none translate-y-3 scale-95" role="dialog" aria-label="YourJob Assistant" aria-hidden="true">
 
-    <div id="yj-header">
-        <div id="yj-avatar">
-            <img src="{{ site_logo_url() }}" alt="YourJob Logo">
+    <div id="yj-header" class="bg-gradient-to-r from-blue-600 to-violet-accent px-5 py-4 flex items-center gap-3 shrink-0 border-b border-white/10">
+        <div id="yj-avatar" class="w-10 h-10 rounded-full bg-white flex items-center justify-center shrink-0 shadow-sm overflow-hidden p-1">
+            <img src="{{ site_logo_url() }}" alt="YourJob Logo" class="w-full h-full object-contain">
         </div>
-        <div id="yj-header-info">
-            <h3>YourJob Assistant</h3>
-            <p><span id="yj-online-dot"></span>Online · siap membantu</p>
+        <div id="yj-header-info" class="flex-1">
+            <h3 class="text-white text-[15px] font-bold m-0 mb-0.5 leading-snug tracking-tight">YourJob Assistant</h3>
+            <p class="text-white/85 text-xs m-0 font-medium flex items-center">
+                <span id="yj-online-dot" class="inline-block w-2 h-2 bg-green-400 rounded-full mr-1.5 relative yj-pulse"></span>
+                Online · siap membantu
+            </p>
         </div>
-        <button id="yj-close-btn" aria-label="Tutup chat">
+        <button id="yj-close-btn" class="bg-transparent border-none cursor-pointer text-white/85 p-1.5 rounded-lg flex items-center transition-all duration-200 hover:text-white hover:bg-white/15 hover:rotate-90" aria-label="Tutup chat">
             <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none">
                 <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
             </svg>
         </button>
     </div>
 
-    <div id="yj-messages" role="log" aria-live="polite"></div>
+    <div id="yj-messages" class="flex-1 overflow-y-auto p-4.5 flex flex-col gap-3 scroll-smooth min-h-[240px] bg-slate-50" role="log" aria-live="polite"></div>
 
-    <div id="yj-quick-btns" aria-label="Pertanyaan cepat">
-        <button class="yj-quick-btn">🔍 Cari lowongan</button>
-        <button class="yj-quick-btn">📝 Cara daftar akun</button>
-        <button class="yj-quick-btn">🔑 Lupa password</button>
-        <button class="yj-quick-btn">💡 Tips CV & interview</button>
-        <button class="yj-quick-btn">📬 Status lamaran</button>
+    <div id="yj-quick-btns" class="px-4 py-2 pb-3.5 flex flex-wrap gap-2 shrink-0 bg-slate-50" aria-label="Pertanyaan cepat">
+        <button class="yj-quick-btn text-xs px-3 py-1.5 rounded-full border border-blue-600/15 bg-blue-50/65 text-blue-600 cursor-pointer transition-all duration-200 font-semibold whitespace-nowrap hover:bg-blue-100 hover:border-blue-200 hover:-translate-y-0.5 hover:shadow-sm">🔍 Cari lowongan</button>
+        <button class="yj-quick-btn text-xs px-3 py-1.5 rounded-full border border-blue-600/15 bg-blue-50/65 text-blue-600 cursor-pointer transition-all duration-200 font-semibold whitespace-nowrap hover:bg-blue-100 hover:border-blue-200 hover:-translate-y-0.5 hover:shadow-sm">📝 Cara daftar akun</button>
+        <button class="yj-quick-btn text-xs px-3 py-1.5 rounded-full border border-blue-600/15 bg-blue-50/65 text-blue-600 cursor-pointer transition-all duration-200 font-semibold whitespace-nowrap hover:bg-blue-100 hover:border-blue-200 hover:-translate-y-0.5 hover:shadow-sm">🔑 Lupa password</button>
+        <button class="yj-quick-btn text-xs px-3 py-1.5 rounded-full border border-blue-600/15 bg-blue-50/65 text-blue-600 cursor-pointer transition-all duration-200 font-semibold whitespace-nowrap hover:bg-blue-100 hover:border-blue-200 hover:-translate-y-0.5 hover:shadow-sm">💡 Tips CV & interview</button>
+        <button class="yj-quick-btn text-xs px-3 py-1.5 rounded-full border border-blue-600/15 bg-blue-50/65 text-blue-600 cursor-pointer transition-all duration-200 font-semibold whitespace-nowrap hover:bg-blue-100 hover:border-blue-200 hover:-translate-y-0.5 hover:shadow-sm">📬 Status lamaran</button>
     </div>
 
-    <div id="yj-input-area">
+    <div id="yj-input-area" class="p-4 pt-3 flex gap-2.5 items-end shrink-0 border-t border-blue-600/10 bg-white">
         <textarea
             id="yj-input"
             rows="1"
             placeholder="Ketik pertanyaan kamu..."
             aria-label="Pesan untuk asisten"
+            class="flex-1 resize-none border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 bg-slate-50 outline-none max-h-20 leading-relaxed transition-all duration-200 focus:border-blue-600 focus:bg-white focus:ring-4 focus:ring-blue-600/15"
         ></textarea>
-        <button id="yj-send-btn" aria-label="Kirim pesan">
-            <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+        <button id="yj-send-btn" class="w-[38px] h-[38px] rounded-full bg-gradient-to-r from-blue-600 to-violet-accent border-none cursor-pointer flex items-center justify-center shrink-0 transition-all duration-200 shadow-sm shadow-blue-600/20 hover:brightness-105 hover:shadow-md hover:shadow-blue-600/30 hover:scale-105 active:scale-95 disabled:bg-blue-200 disabled:cursor-not-allowed disabled:shadow-none disabled:filter-none" aria-label="Kirim pesan">
+            <svg viewBox="0 0 24 24" class="w-4 h-4 fill-white"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
         </button>
     </div>
 
 </div>
 
 {{-- Floating Bubble --}}
-<button id="yj-chat-bubble" aria-label="Buka asisten YourJob" aria-expanded="false">
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<button id="yj-chat-bubble" class="fixed bottom-6 right-6 z-[9999] w-14 h-14 rounded-full bg-gradient-to-r from-blue-600 to-violet-accent border-none cursor-pointer flex items-center justify-center shadow-lg shadow-blue-600/35 transition-all duration-200 hover:scale-105 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-blue-600/45 active:scale-95" aria-label="Buka asisten YourJob" aria-expanded="false">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-[26px] h-[26px] fill-white">
         <path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a8 8 0 01-4.108-1.132l-.292-.175-3.027.9.9-3.027-.175-.292A8 8 0 1112 20z"/>
     </svg>
-    <span id="yj-notif-badge" aria-hidden="true">1</span>
+    <span id="yj-notif-badge" class="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-[11px] font-semibold w-4.5 h-4.5 rounded-full flex items-center justify-center border-2 border-white shadow-sm shadow-red-500/40" aria-hidden="true">1</span>
 </button>
 
 <script>
@@ -338,6 +159,7 @@ Jika ditanya hal lain (cuaca, politik, dll), tolak dengan sopan dan arahkan kemb
         return new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
     }
 
+    // scroll-behavior handles smooth scrolling natively
     function scrollBottom() {
         messagesEl.scrollTop = messagesEl.scrollHeight;
     }
@@ -350,11 +172,11 @@ Jika ditanya hal lain (cuaca, politik, dll), tolak dengan sopan dan arahkan kemb
             .replace(/>/g, '&gt;');
 
         // bold **text**
-        s = s.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        s = s.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-inherit">$1</strong>');
 
         // link [label](url) atau url mentah
-        s = s.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
-        s = s.replace(/(?<![">])(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+        s = s.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" class="text-blue-600 font-semibold no-underline border-b border-dashed border-blue-600 hover:border-solid">$1</a>');
+        s = s.replace(/(?<![">])(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener" class="text-blue-600 font-semibold no-underline border-b border-dashed border-blue-600 hover:border-solid">$1</a>');
 
         // split per baris, deteksi ordered/unordered list
         const lines = s.split('\n');
@@ -367,12 +189,12 @@ Jika ditanya hal lain (cuaca, politik, dll), tolak dengan sopan dan arahkan kemb
 
             if (olMatch) {
                 if (inUl) { html += '</ul>'; inUl = false; }
-                if (!inOl) { html += '<ol>'; inOl = true; }
-                html += `<li>${olMatch[2]}</li>`;
+                if (!inOl) { html += '<ol class="list-decimal pl-5 my-1.5">'; inOl = true; }
+                html += `<li class="mb-1">${olMatch[2]}</li>`;
             } else if (ulMatch) {
                 if (inOl) { html += '</ol>'; inOl = false; }
-                if (!inUl) { html += '<ul>'; inUl = true; }
-                html += `<li>${ulMatch[1]}</li>`;
+                if (!inUl) { html += '<ul class="list-disc pl-5 my-1.5">'; inUl = true; }
+                html += `<li class="mb-1">${ulMatch[1]}</li>`;
             } else {
                 if (inOl) { html += '</ol>'; inOl = false; }
                 if (inUl) { html += '</ul>'; inUl = false; }
@@ -394,18 +216,21 @@ Jika ditanya hal lain (cuaca, politik, dll), tolak dengan sopan dan arahkan kemb
 
     function addMessage(role, text) {
         const wrap   = document.createElement('div');
-        wrap.className = `yj-msg ${role === 'user' ? 'yj-user' : 'yj-bot'}`;
+        wrap.className = role === 'user'
+            ? 'self-end flex flex-col items-end max-w-[85%] animate-fade-up'
+            : 'self-start flex flex-col items-start max-w-[85%] animate-fade-up';
 
         const bub = document.createElement('div');
-        bub.className = 'yj-bubble';
         if (role === 'user') {
+            bub.className = 'p-3.5 rounded-2xl rounded-tr-none text-sm leading-relaxed break-words bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-md shadow-blue-600/10';
             bub.textContent = text;
         } else {
+            bub.className = 'p-3.5 rounded-2xl rounded-tl-none text-sm leading-relaxed break-words bg-white text-slate-800 border border-blue-600/5 shadow-xs';
             bub.innerHTML = formatText(text);
         }
 
         const time = document.createElement('div');
-        time.className = 'yj-time';
+        time.className = 'text-[11px] text-slate-400 mt-1 px-1 font-medium';
         time.textContent = getTime();
 
         wrap.appendChild(bub);
@@ -417,11 +242,15 @@ Jika ditanya hal lain (cuaca, politik, dll), tolak dengan sopan dan arahkan kemb
 
     function showTyping() {
         const wrap = document.createElement('div');
-        wrap.className = 'yj-msg yj-bot';
+        wrap.className = 'self-start flex flex-col items-start max-w-[85%] animate-fade-up';
         wrap.id = 'yj-typing-indicator';
+        
         const bub = document.createElement('div');
-        bub.className = 'yj-bubble';
-        bub.innerHTML = '<span class="yj-typing-dot"></span><span class="yj-typing-dot"></span><span class="yj-typing-dot"></span>';
+        bub.className = 'p-3.5 rounded-2xl rounded-tl-none text-sm leading-relaxed break-words bg-white text-slate-800 border border-blue-600/5 shadow-xs flex items-center';
+        bub.innerHTML = '<span class="inline-block w-1.5 h-1.5 bg-blue-600 rounded-full mx-0.5 animate-[yj-bounce_1.2s_infinite] opacity-70"></span>' +
+                        '<span class="inline-block w-1.5 h-1.5 bg-blue-600 rounded-full mx-0.5 animate-[yj-bounce_1.2s_infinite] opacity-70" style="animation-delay: 0.2s"></span>' +
+                        '<span class="inline-block w-1.5 h-1.5 bg-blue-600 rounded-full mx-0.5 animate-[yj-bounce_1.2s_infinite] opacity-70" style="animation-delay: 0.4s"></span>';
+        
         wrap.appendChild(bub);
         messagesEl.appendChild(wrap);
         scrollBottom();
