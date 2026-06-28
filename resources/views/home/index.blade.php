@@ -59,12 +59,6 @@
 
         {{-- Konten hero terpusat --}}
         <div class="relative z-10 mx-auto flex w-full max-w-4xl flex-col items-center text-center">
-            {{-- Badge --}}
-            <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/70 px-4 py-1.5 shadow-sm backdrop-blur-sm animate-fade-up">
-                <span class="material-symbols-outlined text-[16px] text-blue-600" style="font-variation-settings: 'FILL' 1;">stars</span>
-                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">{{ number_format($stats['jobs']) }}+ lowongan tersedia</span>
-            </div>
-
             <h1 class="mb-6 max-w-4xl text-balance text-4xl font-extrabold leading-[1.08] tracking-tight text-slate-950 animate-fade-up [animation-delay:80ms] sm:text-5xl lg:text-6xl">
                 Temukan <span class="text-gradient">Pekerjaan Impianmu</span> Lebih Cepat
             </h1>
