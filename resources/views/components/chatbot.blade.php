@@ -1,16 +1,3 @@
-{{-- 
-    YourJob AI Chatbot Widget
-    Powered by Google Gemini API
-
-    CARA PAKAI:
-    1. Taruh file ini di: resources/views/components/chatbot.blade.php
-    2. Set GEMINI_API_KEY di file .env kamu:
-       GEMINI_API_KEY=your_api_key_here
-    3. Include di layouts/app.blade.php sebelum </body>:
-       @include('components.chatbot')
-    4. Dapatkan API key gratis di: https://aistudio.google.com
---}}
-
 <style>
 * { box-sizing: border-box; }
 
@@ -67,10 +54,15 @@
 }
 #yj-avatar {
     width: 40px; height: 40px; border-radius: 50%;
-    background: rgba(255, 255, 255, 0.18);
+    background: #ffffff;
     display: flex; align-items: center; justify-content: center;
-    font-size: 20px; flex-shrink: 0;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    padding: 4px;
+}
+#yj-avatar img {
+    width: 100%; height: 100%; object-fit: contain;
 }
 #yj-header-info { flex: 1; }
 #yj-header-info h3 { color: white; font-size: 15px; font-weight: 700; margin: 0 0 2px; line-height: 1.3; letter-spacing: -0.01em; }
@@ -207,19 +199,15 @@
 #yj-send-btn:disabled { background: #c0c1ff; cursor: not-allowed; box-shadow: none; filter: none; }
 #yj-send-btn svg { width: 16px; height: 16px; fill: white; }
 
-#yj-powered {
-    text-align: center; font-size: 11px; color: #94a3b8;
-    padding: 0 0 10px; flex-shrink: 0;
-    background-color: #fff;
-    font-weight: 500;
-}
 </style>
 
 {{-- Chat Panel --}}
 <div id="yj-chat-panel" role="dialog" aria-label="YourJob Assistant" aria-hidden="true">
 
     <div id="yj-header">
-        <div id="yj-avatar">💼</div>
+        <div id="yj-avatar">
+            <img src="{{ site_logo_url() }}" alt="YourJob Logo">
+        </div>
         <div id="yj-header-info">
             <h3>YourJob Assistant</h3>
             <p><span id="yj-online-dot"></span>Online · siap membantu</p>
@@ -253,7 +241,6 @@
         </button>
     </div>
 
-    <div id="yj-powered">⚡ Powered by Gemini AI</div>
 </div>
 
 {{-- Floating Bubble --}}
