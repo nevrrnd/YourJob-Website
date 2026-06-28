@@ -133,7 +133,7 @@ Jika ditanya hal lain (cuaca, politik, dll), tolak dengan sopan dan arahkan kemb
    - Halaman utama: https://yourjob.web.id
    - Daftar akun: https://yourjob.web.id/register
    - Login: https://yourjob.web.id/login
-   - Cari lowongan: https://yourjob.web.id/jobs
+   - Cari lowongan: https://yourjob.web.id/lowongan
    - Profil saya: https://yourjob.web.id/profile
    - Lamaran saya: https://yourjob.web.id/applications
 5. Jawaban singkat dan to the point, maksimal 5 poin per jawaban.
